@@ -18,7 +18,7 @@ import Button from "@material-ui/core/Button";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import logo from "../../images/d_accel_yoko.png";
+import logo from "../../images/logoLogin.png";
 // import screenDefaultApis from '../../services/screenDefaultApis'
 // import { AuthContext } from './AuthProvider'
 
@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
     width: "80%",
-    height: "100%",
+    marginTop: "30px",
     marginLeft: "50px",
   },
   logoContainer: {
@@ -42,12 +42,12 @@ const useStyles = makeStyles(() => ({
   leftContent: {
     display: "flex",
     flexDirection: "row",
-    height: "100%",
   },
   container: {
+    height: "100%",
     display: "flex",
     justifyContent: "center",
-    flexDirection: "column",
+    flexDirection: "row",
   },
 
   loginTitle: {
@@ -167,7 +167,20 @@ const useStyles = makeStyles(() => ({
       textDecoration: "underline",
     },
   },
-
+  profile: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    borderLeft: "2px solid #ffa50078",
+  },
+  profiledevide: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "25px",
+    marginLeft: "30px",
+    marginTop: "50px",
+    width: "25%"
+  },
   updateInfor: {
     display: "flex",
     gap: "10px",
@@ -176,7 +189,11 @@ const useStyles = makeStyles(() => ({
       textDecoration: "underline",
     },
   },
-
+  formInput: {
+    display: "flex",
+    flexDirection: "column",
+    width: "50%",
+  },
   buttonInfor: {
     borderRadius: "0px",
     "& > span": {
@@ -230,18 +247,15 @@ const Checkout = () => {
   //   } = useContext(AuthContext)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isUpdateInfor, setIsUpdateInfor] = useState(true);
-  const [isUpdatePass, setIsUpdatePass] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [newPassword, setNewPassword] = useState("");
-  const [userAttr, setUserAttr] = useState(null);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [buttonTitle, setButtonTitle] = useState("auth.login.loginTitle");
 
   const regex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -264,42 +278,6 @@ const Checkout = () => {
     setIsShowConfirmPassword(!isShowConfirmPassword);
   };
 
-  const handleForgotPassword = (event) => {
-    event.preventDefault();
-    navigate("/forgotPassword", { replace: true });
-  };
-
-  const handleBackLogin = (event) => {
-    event.preventDefault();
-    navigate("/Login", { replace: true });
-  };
-
-  const handleAfterLogin = (data) => {
-    // localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken.jwtToken)
-    // localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken.token)
-    // const urlParams = new URLSearchParams(window.location.search)
-    // if (urlParams.get('state')) {
-    //   window.location.href = urlParams.get('state')
-    //   console.log(window.location.href)
-    // } else {
-    //   screenDefaultApis
-    //     .getDefaultScreen()
-    //     .then(async (response) => {
-    //       const path =
-    //         response?.data?.raw?.path_default_screen ||
-    //         response?.data?.raw?.pathDefaultScreen
-    //       if (path) {
-    //         window.location.href = `${window.origin}${path}`
-    //       } else {
-    //         window.location.href = `${window.origin}`
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       window.location.href = `${window.origin}`
-    //     })
-    // }
-  };
   const UpdateInfor = () => {
     setIsUpdateInfor(true);
   };
@@ -308,59 +286,15 @@ const Checkout = () => {
     setIsUpdateInfor(false);
   };
 
-  const handleLogin = () => {
-    // setIsLoading(true)
-    // authenticate(email, password)
-    //   .then((result) => {
-    //     console.log('Logged in!')
-    //     if (result.newPasswordRequired) {
-    //       delete result.data.email_verified
-    //       delete result.data.email
-    //       setUserAttr(result.data)
-    //       setLoggedInUser(result.user)
-    //       setScreenMode(ScreenMode.FIRST_LOGIN)
-    //       setIsLoading(false)
-    //     } else {
-    //       handleAfterLogin(result.data)
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //     console.log(err.code)
-    //     console.error('Failed to login!')
-    //     setIsLoading(false)
-    //     if (err.code === 'NotAuthorizedException' || !regex.test(email)) {
-    //       setErrorMessage(t('auth.login.incorrectAccountError'))
-    //     } else {
-    //       setErrorMessage(t('auth.login.serverError'))
-    //     }
-    //   })
-  };
-
-  const handleChangePassword = () => {
-    // setIsLoading(true)
-    // completeNewPasswordChallenge(loggedInUser, newPassword, userAttr)
-    //   .then((data) => {
-    //     console.log('New password completed!')
-    //     handleAfterLogin(data)
-    //   })
-    //   .catch((err) => {
-    //     console.log('Fail to change password!')
-    //     console.log(err)
-    //     setIsLoading(false)
-    //     if (err.code === 'InvalidPasswordException') {
-    //       setErrorMessage(t('auth.login.passwordFormatError'))
-    //     }
-    //   })
-  };
-
   const closeMessage = () => {
     // setShowSuccessfulChangePasswordNoti(false)
   };
-  const onSubmit = (event) => {
-    handleLogin();
-  };
+  const onSubmitInfo = (event) => {
 
+  };
+  const onSubmitPass = (event) => {
+    
+  };
   // useEffect(() => {
   //   const timer = setTimeout(() => {
   //     setShowSuccessfulChangePasswordNoti(false)
@@ -371,244 +305,209 @@ const Checkout = () => {
   return (
     <>
       <div className={classes.container}>
-        <div className={classes.leftContent}>
-          <Tabs
-            value={value}
-            indicatorColor="primary"
-            textColor="primary"
-            onChange={handleChange}
-            aria-label="disabled tabs example"
-          >
-            <Tab label={t("auth.Update.Infor")} onClick={UpdateInfor} />
-            <Tab label={t("auth.Update.changePass")} onClick={UpdatePass} />
-          </Tabs>
-        </div>
-
-        {isUpdateInfor ? (
-          <form onSubmit={onSubmit} className={classes.rightContent}>
-            <div className={classes.logoContainer}>
-              <img className={classes.logo} alt="Daccel" src={logo} />
-            </div>
-            <span className={classes.loginTitle}>
-              {t("auth.Update.updateInfor")}
-            </span>
-            <>
-              <div className={classes.wordEmailField}>
-                <span className={classes.wordEmailTitle}>
-                  {t("auth.Update.Name")}
-                </span>
-                <Input
-                  onFocus={() => setErrorMessage(null)}
-                  required
-                  disabled={isLoading}
-                  className={classes.input}
-                  disableUnderline
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  placeholder={t("auth.Update.workNamePlaceholder")}
-                />
-              </div>
-
-              <div className={classes.passwordOrMailField}>
-                <span className={classes.wordEmailTitle}>
-                  {t("auth.Update.Email")}
-                </span>
-                <Input
-                  onFocus={() => setErrorMessage(null)}
-                  required
-                  disabled={isLoading}
-                  className={classes.input}
-                  disableUnderline
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder={t("auth.Update.workEmailPlaceholder")}
-                />
-              </div>
-              <div className={classes.passwordOrMailField}>
-                <span className={classes.passwordTitle}>
-                  {t("auth.Update.numberPhone")}
-                </span>
-                <Input
-                  onFocus={() => setErrorMessage(null)}
-                  required
-                  disabled={isLoading}
-                  type={isShowPassword ? "text" : "password"}
-                  className={classes.input}
-                  disableUnderline
-                  // value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder={t("auth.Update.workPhonePlaceholder")}
-                  endAdornment={
-                    <InputAdornment position="end" className={classes.eyesIcon}>
-                      <IconButton
-                        onClick={handleClickShowPassWord}
-                        size="small"
-                      >
-                        {isShowPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </div>
-              <div className={classes.passwordOrMailField}>
-                <span className={classes.passwordTitle}>
-                  {t("auth.Update.Address")}
-                </span>
-                <Input
-                  onFocus={() => setErrorMessage(null)}
-                  required
-                  disabled={isLoading}
-                  type={isShowConfirmPassword ? "text" : "password"}
-                  className={classes.input}
-                  disableUnderline
-                  value={confirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                  placeholder={t("auth.Update.workAddressPlaceholder")}
-                  endAdornment={
-                    <InputAdornment position="end" className={classes.eyesIcon}>
-                      <IconButton
-                        onClick={handleClickShowConfirmPassWord}
-                        size="small"
-                      >
-                        {isShowConfirmPassword ? (
-                          <Visibility />
-                        ) : (
-                          <VisibilityOff />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-              </div>
-            </>
-            {errorMessage && (
-              <div className={classes.errorMessageContainer}>
-                {/* <WarningIcon /> */}
-                <span className={classes.errorMessage}>{errorMessage}</span>
-              </div>
-            )}
-            <button
-              type="submit"
-              className={classes.loginButton}
-              disabled={isLoading}
-              style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-            >
-              {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
-              {t("auth.Update.Update")}
-            </button>
-            {/* {showSuccessfulChangePasswordNoti && (
-          <div className={classes.messageCheckPass}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <CheckboxIcon
-                size="large"
-                primaryColor="#FFFFFF"
-                secondaryColor="#008000"
-              />
-              <span style={{ marginLeft: '5px' }}>
-                {t('auth.forgotPassword.changePassSuccess')}
-              </span>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={closeMessage}
-                style={{
-                  background: 'green',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                <EditorCloseIcon primaryColor="#FFFFFF" />
-              </button>
-            </div>
-          </div>
-        )} */}
-          </form>
-        ) : (
-          <form onSubmit={onSubmit} className={classes.rightContent}>
-            <div className={classes.logoContainer}>
-              <img className={classes.logo} alt="Daccel" src={logo} />
-            </div>
-            <span className={classes.loginTitle}>
-              {t("auth.Update.updateInfor")}
-            </span>
-            <>
-              <div className={classes.wordEmailField}>
-                <span className={classes.wordEmailTitle}>
-                  {t("auth.Update.password")}
-                </span>
-                <Input
-                  onFocus={() => setErrorMessage(null)}
-                  required
-                  disabled={isLoading}
-                  className={classes.input}
-                  disableUnderline
-                  value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  placeholder={t("auth.Update.workPassPlaceholder")}
-                />
-              </div>
-
-              <div className={classes.passwordOrMailField}>
-                <span className={classes.wordEmailTitle}>
-                  {t("auth.Update.newPassword")}
-                </span>
-                <Input
-                  onFocus={() => setErrorMessage(null)}
-                  required
-                  disabled={isLoading}
-                  className={classes.input}
-                  disableUnderline
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder={t("auth.Update.workNewPasssPlaceholder")}
-                />
-              </div>
-            </>
-            {errorMessage && (
-              <div className={classes.errorMessageContainer}>
-                {/* <WarningIcon /> */}
-                <span className={classes.errorMessage}>{errorMessage}</span>
-              </div>
-            )}
-            <button
-              type="submit"
-              className={classes.loginButton}
-              disabled={isLoading}
-              style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-            >
-              {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
-              {t("auth.Update.Update")}
-            </button>
-            {/* {showSuccessfulChangePasswordNoti && (
-        <div className={classes.messageCheckPass}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <CheckboxIcon
-              size="large"
-              primaryColor="#FFFFFF"
-              secondaryColor="#008000"
-            />
-            <span style={{ marginLeft: '5px' }}>
-              {t('auth.forgotPassword.changePassSuccess')}
-            </span>
+        {/* <div className={classes.profile}> */}
+        <div className={classes.profiledevide}>
+          <div>avatar</div>
+          <div>
+            <span>{t("checkOut.ten")}</span>
+            <span>nguyen huu nghia</span>
           </div>
           <div>
-            <button
-              type="button"
-              onClick={closeMessage}
-              style={{
-                background: 'green',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              <EditorCloseIcon primaryColor="#FFFFFF" />
-            </button>
+            <span>{t("checkOut.gioitinh")}</span>
+            <span>Nam</span>
+          </div>
+          <div>
+            <span>{t("checkOut.birthday")}</span>
+            <span>18/06/2001</span>
+          </div>
+          <div>
+            <span>{t("checkOut.number")}</span>
+            <span>0969909042</span>
           </div>
         </div>
-      )} */}
-          </form>
-        )}
+        <div className={classes.profile}>
+          <div className={classes.leftContent}>
+            <Tabs
+              value={value}
+              indicatorColor="primary"
+              textColor="primary"
+              onChange={handleChange}
+              aria-label="disabled tabs example"
+            >
+              <Tab label={t("auth.Update.Infor")} onClick={UpdateInfor} />
+              <Tab label={t("auth.Update.changePass")} onClick={UpdatePass} />
+            </Tabs>
+          </div>
+          {isUpdateInfor ? (
+            <form onSubmit={onSubmitInfo} className={classes.rightContent}>
+              <span className={classes.loginTitle}>
+                {t("auth.Update.updateInfor")}
+              </span>
+              <div className={classes.formInput}>
+                <div className={classes.wordEmailField}>
+                  <span className={classes.wordEmailTitle}>
+                    {t("auth.Update.Name")}
+                  </span>
+                  <Input
+                    onFocus={() => setErrorMessage(null)}
+                    required
+                    disabled={isLoading}
+                    className={classes.input}
+                    disableUnderline
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder={t("auth.Update.workNamePlaceholder")}
+                  />
+                </div>
+
+                <div className={classes.passwordOrMailField}>
+                  <span className={classes.wordEmailTitle}>
+                    {t("auth.Update.Email")}
+                  </span>
+                  <Input
+                    onFocus={() => setErrorMessage(null)}
+                    required
+                    disabled={isLoading}
+                    className={classes.input}
+                    disableUnderline
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder={t("auth.Update.workEmailPlaceholder")}
+                  />
+                </div>
+                <div className={classes.passwordOrMailField}>
+                  <span className={classes.passwordTitle}>
+                    {t("auth.Update.numberPhone")}
+                  </span>
+                  <Input
+                    onFocus={() => setErrorMessage(null)}
+                    required
+                    disabled={isLoading}
+                    type={"number"}
+                    className={classes.input}
+                    disableUnderline
+                    value={number}
+                    onChange={(event) => setNumber(event.target.value)}
+                    placeholder={t("auth.Update.workPhonePlaceholder")}
+                  />
+                </div>
+                <div className={classes.passwordOrMailField}>
+                  <span className={classes.passwordTitle}>
+                    {t("auth.Update.Address")}
+                  </span>
+                  <Input
+                    onFocus={() => setErrorMessage(null)}
+                    required
+                    disabled={isLoading}
+                    className={classes.input}
+                    disableUnderline
+                    value={address}
+                    onChange={(event) => setAddress(event.target.value)}
+                    placeholder={t("auth.Update.workAddressPlaceholder")}
+                  />
+                </div>
+                <button
+                type="submit"
+                className={classes.loginButton}
+                disabled={isLoading}
+                style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+              >
+                {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
+                {t("auth.Update.Update")}
+              </button>
+              </div>
+              {errorMessage && (
+                <div className={classes.errorMessageContainer}>
+                  {/* <WarningIcon /> */}
+                  <span className={classes.errorMessage}>{errorMessage}</span>
+                </div>
+              )}
+
+            </form>
+          ) : (
+            <form onSubmit={onSubmitPass} className={classes.rightContent}>
+              <span className={classes.loginTitle}>
+                {t("auth.Update.updateInfor")}
+              </span>
+              <div className={classes.formInput}>
+                <div className={classes.wordEmailField}>
+                  <span className={classes.wordEmailTitle}>
+                    {t("auth.Update.password")}
+                  </span>
+                  <Input
+                    onFocus={() => setErrorMessage(null)}
+                    required
+                    disabled={isLoading}
+                    type={isShowPassword ? "text" : "password"}
+                    className={classes.input}
+                    disableUnderline
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    placeholder={t("auth.Update.workPassPlaceholder")}
+                    endAdornment={
+                      <InputAdornment position="end" className={classes.eyesIcon}>
+                        <IconButton
+                          onClick={handleClickShowPassWord}
+                          size="small"
+                        >
+                          {isShowPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </div>
+
+                <div className={classes.passwordOrMailField}>
+                  <span className={classes.wordEmailTitle}>
+                    {t("auth.Update.newPassword")}
+                  </span>
+                  <Input
+                    onFocus={() => setErrorMessage(null)}
+                    required
+                    disabled={isLoading}
+                    type={isShowConfirmPassword ? "text" : "password"}
+                    className={classes.input}
+                    disableUnderline
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                    placeholder={t("auth.Update.workNewPasssPlaceholder")}
+                    endAdornment={
+                      <InputAdornment position="end" className={classes.eyesIcon}>
+                        <IconButton
+                          onClick={handleClickShowConfirmPassWord}
+                          size="small"
+                        >
+                          {isShowConfirmPassword ? (
+                            <Visibility />
+                          ) : (
+                            <VisibilityOff />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </div>
+                <button
+                type="submit"
+                className={classes.loginButton}
+                disabled={isLoading}
+                style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+              >
+                {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
+                {t("auth.Update.Update")}
+              </button>
+              </div>
+              {errorMessage && (
+                <div className={classes.errorMessageContainer}>
+                  {/* <WarningIcon /> */}
+                  <span className={classes.errorMessage}>{errorMessage}</span>
+                </div>
+              )}
+
+            </form>
+          )}
+        </div>
+        {/* </div> */}
       </div>
     </>
   );

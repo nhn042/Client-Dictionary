@@ -227,7 +227,7 @@ const Register = () => {
 
   const handleBackLogin = (event) => {
     event.preventDefault();
-    navigate("/Login", { replace: true });
+    navigate("/", { replace: true });
   };
 
   const handleAfterLogin = (data) => {

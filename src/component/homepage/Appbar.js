@@ -7,17 +7,46 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useNavigate } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormGroup from "@material-ui/core/FormGroup";
+import Button from "@atlaskit/button/standard-button";
+import logo from "../../images/logo.png";
+import UserAvatarCircleIcon from "@atlaskit/icon/glyph/user-avatar-circle";
+import SignOutIcon from "@atlaskit/icon/glyph/sign-out";
+import DropdownMenu, {
+  DropdownItem,
+  DropdownItemGroup,
+} from "@atlaskit/dropdown-menu";
+import PersonIcon from "@atlaskit/icon/glyph/person";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { useTranslation } from "react-i18next";
+import { withStyles } from "@material-ui/core/styles";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import InboxIcon from "@material-ui/icons/MoveToInbox";
+import DraftsIcon from "@material-ui/icons/Drafts";
+import SendIcon from "@material-ui/icons/Send";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '8%',
+    height: "8%",
     flexGrow: 1,
+    position: "fixed",
+    top: "0px",
+    right: "0px",
+    left: "0px",
+    borderBottom: "4px solid orange",
+    color: "rgb(30, 31, 33)",
+    backgroundColor: "#ffff",
+    "& header > div": {
+      minHeight: "48px !important",
+    },
+    "& header > div > div > h6": {
+      fontSize: "15px",
+      textUnderlineOffset: "12px",
+      fontFamily:
+        "-apple-system,system-ui,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif !important",
+      fontWeight: "600",
+    },
   },
 
   menuIcon: {
@@ -27,7 +56,13 @@ const useStyles = makeStyles((theme) => ({
   },
 
   menuButton: {
-    marginRight: theme.spacing(2),
+    background: "#3f51b5 !important",
+    marginRight: theme.spacing(4),
+    marginBottom: "3px",
+    "&:hover": {
+      cursor: "pointer",
+      textDecoration: "underline",
+    },
   },
   title: {
     flexGrow: 1,
@@ -36,11 +71,50 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: "underline",
     },
   },
+  user: {
+    marginLeft: "-8px",
+    gap: "6px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  logOut: {
+    gap: "10px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  out: {
+    marginRight: "3px",
+    position: "relative",
+    width: 0,
+    height: 0,
+    borderTop: "16px solid transparent",
+    borderRight: "16px solid #D4DEE2",
+    borderBottom: "16px solid transparent",
+  },
+  in: {
+    position: "absolute",
+    top: "-13px",
+    right: "-16px",
+    width: 0,
+    height: 0,
+    borderTop: "13px solid transparent",
+    borderRight: "13px solid white",
+    borderBottom: "13px solid transparent",
+  },
+  icon: {
+    primaryColor: "#303952",
+  },
   select: {
     display: "flex",
-    justifyContent: 'flex-start',
+    justifyContent: "flex-start",
+    alignItems: "center",
     flexDirection: "row",
-    gap: "15px",
+    gap: "25px",
+  },
+  icon: {
+    primaryColor: "#303952",
   },
 }));
 
@@ -50,19 +124,90 @@ const MenuAppBar = () => {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorElMenu, setAnchorElMenu] = React.useState(null);
   const open = Boolean(anchorEl);
+
+  const handleClickMenu = (event) => {
+    setAnchorElMenu(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorElMenu(null);
+  };
+
+  const handleProfile = (event) => {
+    event.preventDefault();
+    navigate("/checkOut", { replace: true });
+  };
+
+  const handleByCourses = (event) => {
+    event.preventDefault();
+    navigate("/buyCourses", { replace: true });
+  };
 
   const handleLogin = (event) => {
     event.preventDefault();
-    navigate("/login", { replace: true });
+    navigate("/", { replace: true });
   };
+  
   const handleSearch = (event) => {
     event.preventDefault();
     navigate("/search", { replace: true });
   };
+
+  const handleCourses = (event) => {
+    event.preventDefault();
+    navigate("/courses", { replace: true });
+  };
+
+  const handleZoom = (event) => {
+    event.preventDefault();
+    navigate("/homeZoom", { replace: true });
+  };
+
+  const handleGame = (event) => {
+    event.preventDefault();
+    navigate("/game", { replace: true });
+  };
+
+  const handleHome = (event) => {
+    event.preventDefault();
+    navigate("/home", { replace: true });
+  };
   const handleChange = (event) => {
     setAuth(event.target.checked);
   };
+
+  const StyledMenuItem = withStyles((theme) => ({
+    root: {
+      "&:focus": {
+        backgroundColor: theme.palette.primary.main,
+        "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+          color: theme.palette.common.white,
+        },
+      },
+    },
+  }))(MenuItem);
+
+  const StyledMenu = withStyles({
+    paper: {
+      border: "1px solid #d3d4d5",
+    },
+  })((props) => (
+    <Menu
+      elevation={0}
+      getContentAnchorEl={null}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "center",
+      }}
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "center",
+      }}
+      {...props}
+    />
+  ));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -73,61 +218,87 @@ const MenuAppBar = () => {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
-          <div className={classes.select}>
-            <Typography variant="h6" className={classes.title}>
-              <span>{t("auth.appBar.Home")}</span>
-            </Typography>
-            <Typography variant="h6" className={classes.title}>
-              <span onClick={handleSearch}>{t("auth.appBar.Search")}</span>
-            </Typography>
+    // <div className={classes.root}>
+    <AppBar className={classes.root}>
+      <Toolbar>
+        <div onClick={handleHome} className={classes.menuButton}>
+          <img className={classes.logo} alt="Dictionary" src={logo} />
+        </div>
+        <div className={classes.select}>
+          <Typography variant="h6" className={classes.title}>
+            <span onClick={handleHome}>{t("auth.appBar.Home")}</span>
+          </Typography>
+          <span className={classes.out}>
+            <span className={classes.in} />
+          </span>
+          <Typography variant="h6" className={classes.title}>
+            <span onClick={handleSearch}>{t("auth.appBar.Search")}</span>
+          </Typography>
+          <span className={classes.out}>
+            <span className={classes.in} />
+          </span>
+          <Typography variant="h6" className={classes.title}>
+            <span onClick={handleCourses}>{t("auth.appBar.Courses")}</span>
+          </Typography>
+          <span className={classes.out}>
+            <span className={classes.in} />
+          </span>
+          <Typography variant="h6" className={classes.title}>
+            <span onClick={handleZoom}>{t("auth.appBar.Zoom")}</span>
+          </Typography>
+          <span className={classes.out}>
+            <span className={classes.in} />
+          </span>
+          <Typography variant="h6" className={classes.title}>
+            <span onClick={handleGame}>{t("auth.appBar.Game")}</span>
+          </Typography>
+        </div>
+        {auth && (
+          <div className={classes.menuIcon}>
+            <IconButton
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+
+            <Menu
+              style={{ top: "30px" }}
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: "buttom",
+                horizontal: "center",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "center",
+              }}
+              open={open}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleProfile} className={classes.user}>
+                <PersonIcon size="medium" />
+                {t("auth.login.profile")}
+              </MenuItem>
+              <MenuItem onClick={handleByCourses} className={classes.user}>
+                <PersonIcon size="medium" />
+                {t("auth.login.courses")}
+              </MenuItem>
+              <MenuItem onClick={handleLogin} className={classes.logOut}>
+                <SignOutIcon size="small" className={classes.icon} />
+                <span style={{ fontSize: 16 }}> {t("auth.login.logout")} </span>
+              </MenuItem>
+            </Menu>
           </div>
-          {auth && (
-            <div className={classes.menuIcon}>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleLogin}>
-                  {t("auth.login.logout")}
-                </MenuItem>
-              </Menu>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </div>
+        )}
+      </Toolbar>
+    </AppBar>
+    // </div>
   );
 };
 

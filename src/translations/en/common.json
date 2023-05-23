@@ -6,6 +6,8 @@
       "loginTitle": "Log in",
       "login": "Log in",
       "logout": "Log out",
+      "profile": "Profile",
+      "courses": "Đăng ký khóa học",
       "workEmailFormTitle": "Work Email",
       "workEmailPlaceholder": "Input your work email",
       "passwordTitle": "Password",
@@ -71,8 +73,48 @@
     },
     "appBar": {
       "Home": "Home",
-      "Search": "Search"
+      "Search": "Search",
+      "Courses": "Courses",
+      "signOut": "Sign out",
+      "Zoom": "Join",
+      "Game": "Game"
+    },
+    "home": {
+      "learn": "Learning",
+      "seen": "Xem thêm",
+      "title1": "Trang Web hàng đầu",
+      "title2": "Bài giảng chất lượng cao",
+      "title3": "Lý thuyết",
+      "title4": "Học viên xuất sắc",
+      "text1": "Tự hào là trang Web trong lĩnh vực đào tạo tiếng Tày chuẩn. Cam kết đầu ra chất lượng hàng đầu.",
+      "text2": "Nội dung bài giảng chất lượng, truyền tải đến học viên dễ hiểu. Hình ảnh sắc nét, âm thanh rõ ràng",
+      "text3": "Các kiến thức về tiếng Tày đầy đủ, rõ ràng. Nội dung được chia theo lộ trình khoa học dễ hiểu.",
+      "text4": "Học viên chuẩn đầu ra, cam kết kiến thức chuyên môn, kỹ năng mềm, năng lực và hành vi"
     }
-
+  },
+  "word": {
+    "search": "Tìm kiếm",
+    "de": "Dễ",
+    "binhthuong": "Thường",
+    "kho": "Khó",
+    "All": "Tất cả",
+    "Note": "Nhật ký",
+    "video": "Video",
+    "viet": "Tiếng Việt",
+    "tay": "Tiếng Tày",
+    "description": "Miêu Tả",
+    "dokho": "Độ Khó",
+    "Note": "Nhật Ký",
+    "Content": "Lý Thuyết",
+    "NguPhap": "Ngữ Pháp",
+    "PhatAm": "Phát Âm",
+    "TuVung": "Từ Vựng",
+    "sub": "Gửi"
+  },
+  "checkOut": {
+    "ten": "Họ và tên: ",
+    "gioitinh": "Giới tính: ",
+    "birthday": "Ngày sinh: ",
+    "number": "Số điện thoại: "
   }
 }

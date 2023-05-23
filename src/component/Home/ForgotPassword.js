@@ -9,7 +9,7 @@ import i18next from 'i18next'
 import React, { useContext, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../images/d_accel_yoko.png'
+import logo from "../../images/logoLogin.png";
 // import { AuthContext } from './AuthProvider'
 
 const ScreenMode = {
@@ -254,7 +254,7 @@ const ForgotPassword = () => {
 
   const backToLogIn = (event) => {
     event.preventDefault()
-    navigate('/login', { replace: true })
+    navigate('/', { replace: true })
   }
 
   const handleOnchangeEmail = (event) => {

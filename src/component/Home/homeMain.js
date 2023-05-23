@@ -13,6 +13,7 @@ const useStyles = makeStyles(() => ({
       height: '100%',
     },
     appBar: {
+      position: 'fixed',
       top: 0,
       left: 0,
       right: 0,
@@ -52,9 +53,11 @@ const useStyles = makeStyles(() => ({
       letterSpacing: '10px',
     },
     content: {
-      height: '92%',
+      // height: '92%',
+      height: 'calc(100% - 67px)',
       width: '100%',
       margin: 'auto',
+      marginTop: '67px',
     },
     policyField: {
       flex: 1,

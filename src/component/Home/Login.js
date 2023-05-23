@@ -13,7 +13,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import logo from "../../images/d_accel_yoko.png";
+import logo from "../../images/logoLogin.png";
 // import screenDefaultApis from '../../services/screenDefaultApis'
 // import { AuthContext } from './AuthProvider'
 
@@ -259,7 +259,7 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    navigate("/checkOut", { replace: true });
+    navigate("/home", { replace: true });
     // try {
     //   // e.preventDefault();
     //   axios
@@ -340,7 +340,7 @@ const Login = () => {
     <>
       <form onSubmit={onSubmit} className={classes.loginForm}>
         <div className={classes.logoContainer}>
-          <img className={classes.logo} alt="Daccel" src={logo} />
+        <img className={classes.logo} alt="Dictionary" src={logo} />
         </div>
         <span className={classes.loginTitle}>{t("auth.login.loginTitle")}</span>
         <>

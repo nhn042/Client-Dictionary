@@ -7,16 +7,30 @@ import Register from "./component/Home/signUp";
 import "./translations/i18n";
 import WrapperComponent from "./component/Home/WrapperComponent.js";
 import Checkout from "./component/checkOut/checkOut";
+import Courses from "./component/Courses/courses";
+import HomeScene from "./component/homeMain/home";
 import HomeMain from "./component/Home/homeMain";
+import DropdownItemDescriptionExample from "./component/Courses/Learn/video";
+import HomeZoom from "./component/joinZoom/homeZoom";
+import Room from "./component/joinZoom/Room";
+import Game from "./component/Game/game";
 function App() {
   return (
     <Router>
       <Routes>
         <Route
-          path="/login"
+          path="/"
           element={
             <WrapperComponent>
               <Login />
+            </WrapperComponent>
+          }
+        />
+        <Route
+          path="/test"
+          element={
+            <WrapperComponent>
+              <DropdownItemDescriptionExample />
             </WrapperComponent>
           }
         />
@@ -45,10 +59,58 @@ function App() {
           }
         />
         <Route
+          path="/home"
+          element={
+            <HomeMain>
+              <HomeScene />
+            </HomeMain>
+          }
+        />
+        <Route
           path="/search"
           element={
             <HomeMain>
               <Search />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/courses"
+          element={
+            <HomeMain>
+              <Courses />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/buyCourses"
+          element={
+            <HomeMain>
+              <buyCourses />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/homeZoom"
+          element={
+            <HomeMain>
+              <HomeZoom />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/room/:roomID"
+          element={
+            // <HomeMain>
+            <Room />
+            // </HomeMain>
+          }
+        />
+        <Route
+          path="/game"
+          element={
+            <HomeMain>
+              <Game />
             </HomeMain>
           }
         />
