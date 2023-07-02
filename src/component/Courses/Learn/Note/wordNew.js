@@ -17,7 +17,7 @@ import DynamicTable from "@atlaskit/dynamic-table";
 import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
 import { Field } from "@atlaskit/form";
 import Select from "@atlaskit/select";
-import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "./constant";
+import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "../../constant";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -125,6 +125,10 @@ const WordNew = () => {
   const [checkIsLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
   const [tableRows, setTableRows] = useState([]);
+  const [wordViet, setWordViet] = useState();
+  const [wordTay, setWordTay] = useState();
+  const [description, setDescription] = useState();
+  const [wordType, setwordType] = useState();
   const [currentPage, setCurrentPage] = React.useState(1);
   const { t } = useTranslation();
 
@@ -133,7 +137,6 @@ const WordNew = () => {
   };
 
   const handleAddWord = () => {
-    console.log(1111);
     setIsLoading(true);
   };
 
@@ -191,7 +194,6 @@ const WordNew = () => {
     },
   ];
   const getRows = () => {
-    console.log(11111);
     const rows = newData?.map((detail) => {
       const itemKey = detail?.key;
       const dataRow = {
@@ -246,27 +248,52 @@ const WordNew = () => {
         <div className={classes.bottom}>
           <div className={classes.inputForm}>
             <span>{t("word.viet")}</span>
-            <Textfield className={classes.input} />
+            <Textfield
+              className={classes.input}
+              placeholder={t(
+                "word.noteviet"
+              )}
+              value={wordViet}
+              onChange={(e) => setWordViet(e.target.value())}
+            />
           </div>
           <div className={classes.inputForm}>
             <span>{t("word.tay")}</span>
-            <Textfield className={classes.input} />
+            <Textfield
+              className={classes.input}
+              placeholder={t(
+                "word.notetay"
+              )}
+              value={wordTay}
+              onChange={(e) => setWordTay(e.target.value())}
+            />
           </div>
           <div className={classes.inputForm}>
             <span>{t("word.description")}</span>
-            <Textfield className={classes.input} />
+            <Textfield
+              className={classes.input}
+              placeholder={t(
+                "word.noteMT"
+              )}
+              value={description}
+              onChange={(e) => setDescription(e.target.value())}
+            />
           </div>
           <div className={classes.searchItem}>
             <span>{t("word.dokho")}</span>
-            <Select 
+            <Select
               inputId="single-select-example"
               // className="single-select"
+              value={wordType}
               classNamePrefix="react-select"
               options={[
                 { label: "Dễ", value: "danh từ" },
                 { label: "Thường", value: "động từ" },
                 { label: "Khó", value: "tính từ" },
               ]}
+              onChange={(newValue) => {
+                setwordType(newValue)
+              }}
             />
           </div>
         </div>

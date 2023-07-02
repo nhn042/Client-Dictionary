@@ -4,9 +4,9 @@ import ScreenIcon from "@atlaskit/icon/glyph/screen";
 import QueuesIcon from "@atlaskit/icon/glyph/queues";
 import { makeStyles } from "@material-ui/core/styles";
 import EditFilledIcon from '@atlaskit/icon/glyph/edit-filled'
-import WordNew from "./Learn/wordNew";
-import Video from "./Learn/video";
-import Content from "./Learn/Content";
+import WordNew from "./Learn/Note/wordNew";
+import Video from "./Learn/Watch/video";
+import Theory from "./Learn/NoiDunghoc/theory";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -85,7 +85,7 @@ const Courses = () => {
       </div>
       <div className={classes.rightBox}>
         {isWord && <WordNew />}
-        {isContent && <Content />}
+        {isContent && <Theory />}
         {isVideo && <Video />}
       </div>
     </div>

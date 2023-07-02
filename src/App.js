@@ -10,7 +10,7 @@ import Checkout from "./component/checkOut/checkOut";
 import Courses from "./component/Courses/courses";
 import HomeScene from "./component/homeMain/home";
 import HomeMain from "./component/Home/homeMain";
-import DropdownItemDescriptionExample from "./component/Courses/Learn/video";
+import DropdownItemDescriptionExample from "./component/Courses/Learn/Watch/video";
 import HomeZoom from "./component/joinZoom/homeZoom";
 import Room from "./component/joinZoom/Room";
 import Game from "./component/Game/game";

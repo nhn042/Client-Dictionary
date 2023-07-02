@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
-import anh0 from "../../../images/anh11.png";
-import anh1 from "../../../images/anh1.png";
-import anh2 from "../../../images/anh2.png";
-import anh3 from "../../../images/anh3.png";
-import anh4 from "../../../images/anh4.png";
-import anh5 from "../../../images/anh5.png";
-import anh6 from "../../../images/anh6.png";
-import anh7 from "../../../images/anh7.png";
-import anh8 from "../../../images/anh8.png";
-import anh9 from "../../../images/anh9.png";
-import anh10 from "../../../images/anh10.png";
+import anh0 from "../../../../images/anh11.png";
+import anh1 from "../../../../images/anh1.png";
+import anh2 from "../../../../images/anh2.png";
+import anh3 from "../../../../images/anh3.png";
+import anh4 from "../../../../images/anh4.png";
+import anh5 from "../../../../images/anh5.png";
+import anh6 from "../../../../images/anh6.png";
+import anh7 from "../../../../images/anh7.png";
+import anh8 from "../../../../images/anh8.png";
+import anh9 from "../../../../images/anh9.png";
+import anh10 from "../../../../images/anh10.png";
 import Textfield from "@atlaskit/textfield";
 import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
 import Button from "@atlaskit/button";
@@ -98,6 +98,9 @@ const Video = () => {
   const closeModal = () => {
     setIsOpenVideo1(false);
   };
+  const number = ['1', '2']
+  const listVideo = [{id: 1, name: "Học tiếng Tày - Nùng Online. Bài 4: Số đếm", anh: anh0}, 
+  {id: 2, name: "HỌC TIẾNG TÀY BÀI 3", anh: anh1}, ]
   return (
     <>
     <div>
@@ -122,8 +125,23 @@ const Video = () => {
         </div>
         <div></div>
       </div>
+      <div>
+</div>
       <div className={classes.container}>
-        <div onClick={handleVideo1}>
+        {
+          listVideo.map((item, index) => {
+            <div>
+              </div>
+          //   <div key={item.id}>
+          //                 123
+          //   <img className={classes.group} alt="Dictionary" src={item.anh} />
+          //   <span>{item.name}</span>
+          // </div>
+
+
+          })
+        }
+        {/* <div onClick={handleVideo1}>
           <img className={classes.group} alt="Dictionary" src={anh0} />
           <span>Học tiếng Tày - Nùng Online. Bài 4: Số đếm</span>
         </div>
@@ -168,7 +186,7 @@ const Video = () => {
         <div>
           <img className={classes.group} alt="Dictionary" src={anh10} />
           <span>Học tiếng Tày - Nùng Online. Bài 3: Đại từ nhân xưng</span>
-        </div>
+        </div> */}
       </div>
       {isOpenVideo1 && (
         <Example

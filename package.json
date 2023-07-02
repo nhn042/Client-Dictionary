@@ -7,6 +7,7 @@
     "@atlaskit/dropdown-menu": "^11.6.0",
     "@atlaskit/dynamic-table": "^14.8.12",
     "@atlaskit/form": "^8.8.4",
+    "@atlaskit/icon-object": "^6.3.3",
     "@atlaskit/modal-dialog": "^12.4.11",
     "@atlaskit/pagination": "^14.2.9",
     "@atlaskit/select": "^16.1.5",

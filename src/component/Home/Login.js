@@ -9,6 +9,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { handleUserLoginApi } from "../../services/userService";
 // import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -152,11 +153,11 @@ const useStyles = makeStyles(() => ({
     },
   },
   errorMessageContainer: {
-    color: '#D92929',
-    fontSize: '16px',
-    width: '100%',
-    marginTop: '10px',
-    display: 'flex',
+    color: "#D92929",
+    fontSize: "16px",
+    width: "100%",
+    marginTop: "10px",
+    display: "flex",
   },
   loginButton: {
     cursor: "pointer",
@@ -258,23 +259,22 @@ const Login = () => {
     // }
   };
 
-  const handleLogin = () => {
-    navigate("/home", { replace: true });
-    // try {
-    //   // e.preventDefault();
-    //   axios
-    //     .get(`http://localhost:8080/dictionary/${category}?query=${word}`, word)
-    //     .then((res) => {
-    //       console.log(res.data);
-    //       if (res.status === 200) {
-    //         navigate("/checkOut", { replace: true });
-    //       }
-    //     });
-    // } catch (err) {
-    //   console.log(err);
-    //   setMesError(true);
-    //   setIsLoading(false);
-    // }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    console.log("111");
+    try {
+      const user = await handleUserLoginApi(email, password);
+      console.log("user", user);
+      navigate("/home", { replace: true });
+    } catch (err) {
+      console.log(err.code);
+      setIsLoading(false)
+      if (err.code === 'NotAuthorizedException' || !regex.test(email)) {
+        setErrorMessage(t('auth.login.incorrectAccountError'))
+      } else {
+        setErrorMessage(t('auth.login.serverError'))
+      }
+    }
   };
   // const handleLogin = () => {
   // setIsLoading(true)
@@ -338,9 +338,9 @@ const Login = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className={classes.loginForm}>
+      <form className={classes.loginForm}>
         <div className={classes.logoContainer}>
-        <img className={classes.logo} alt="Dictionary" src={logo} />
+          <img className={classes.logo} alt="Dictionary" src={logo} />
         </div>
         <span className={classes.loginTitle}>{t("auth.login.loginTitle")}</span>
         <>
@@ -391,12 +391,12 @@ const Login = () => {
         </>
         {errorMessage && (
           <div className={classes.errorMessageContainer}>
-            {/* <WarningIcon /> */}
+            <WarningIcon />
             <span className={classes.errorMessage}>{errorMessage}</span>
           </div>
         )}
         <button
-          type="submit"
+          onClick={handleLogin}
           className={classes.loginButton}
           disabled={isLoading}
           style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
@@ -404,12 +404,6 @@ const Login = () => {
           {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
           {t("auth.login.loginTitle")}
         </button>
-        {!mesError && (
-          <div className={classes.errorMessageContainer}>
-            <WarningIcon />
-            <span>fail</span>
-          </div>
-        )}
         <div onClick={handleSignUp} className={classes.messSignUp}>
           <span
             style={{

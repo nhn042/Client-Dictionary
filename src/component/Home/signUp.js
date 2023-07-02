@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 // import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
+import { handleUserRegisterApi } from "../../services/userService";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -230,102 +231,21 @@ const Register = () => {
     navigate("/", { replace: true });
   };
 
-  const handleAfterLogin = (data) => {
-    // localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken.jwtToken)
-    // localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken.token)
-    // const urlParams = new URLSearchParams(window.location.search)
-    // if (urlParams.get('state')) {
-    //   window.location.href = urlParams.get('state')
-    //   console.log(window.location.href)
-    // } else {
-    //   screenDefaultApis
-    //     .getDefaultScreen()
-    //     .then(async (response) => {
-    //       const path =
-    //         response?.data?.raw?.path_default_screen ||
-    //         response?.data?.raw?.pathDefaultScreen
-    //       if (path) {
-    //         window.location.href = `${window.origin}${path}`
-    //       } else {
-    //         window.location.href = `${window.origin}`
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       window.location.href = `${window.origin}`
-    //     })
-    // }
-  };
-
-  const handleSignUp = () => {
-        // try {
-    //   // e.preventDefault();
-    //   axios
-    //     .get(`http://localhost:8080/dictionary/${category}?query=${word}`, word)
-    //     .then((res) => {
-    //       console.log(res.data);
-    //       if (res.status === 200) {
-    //          navigate("/Login", { replace: true });
-    //       }
-    //     });
-    // } catch (err) {
-    //   console.log(err);
-    //   setMesError(true);
-    //   setIsLoading(false);
-    // }
-
-    // console.log(1235);
-    // handleBackLogin()
-    // setIsLoading(true)
-    // authenticate(email, password)
-    //   .then((result) => {
-    //     console.log('Logged in!')
-    //     if (result.newPasswordRequired) {
-    //       delete result.data.email_verified
-    //       delete result.data.email
-    //       setUserAttr(result.data)
-    //       setLoggedInUser(result.user)
-    //       setScreenMode(ScreenMode.FIRST_LOGIN)
-    //       setIsLoading(false)
-    //     } else {
-    //       handleAfterLogin(result.data)
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //     console.log(err.code)
-    //     console.error('Failed to login!')
-    //     setIsLoading(false)
-    //     if (err.code === 'NotAuthorizedException' || !regex.test(email)) {
-    //       setErrorMessage(t('auth.login.incorrectAccountError'))
-    //     } else {
-    //       setErrorMessage(t('auth.login.serverError'))
-    //     }
-    //   })
-  };
-
-  const handleChangePassword = () => {
-    // setIsLoading(true)
-    // completeNewPasswordChallenge(loggedInUser, newPassword, userAttr)
-    //   .then((data) => {
-    //     console.log('New password completed!')
-    //     handleAfterLogin(data)
-    //   })
-    //   .catch((err) => {
-    //     console.log('Fail to change password!')
-    //     console.log(err)
-    //     setIsLoading(false)
-    //     if (err.code === 'InvalidPasswordException') {
-    //       setErrorMessage(t('auth.login.passwordFormatError'))
-    //     }
-    //   })
+  const handleSignUp = async (e) => {
+    try {
+      e.preventDefault();
+      let userData = await handleUserRegisterApi(name, email, password);
+      console.log("userData", userData);
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false)
+      setErrorMessage(t('auth.signUp.messerror'))
+    }
   };
 
   const closeMessage = () => {
     // setShowSuccessfulChangePasswordNoti(false)
-  };
-  const onSubmit = (event) => {
-    handleSignUp();
   };
 
   // useEffect(() => {
@@ -337,7 +257,7 @@ const Register = () => {
 
   return (
     <>
-      <form onSubmit={onSubmit} className={classes.loginForm}>
+      <form className={classes.loginForm}>
         <div className={classes.logoContainer}>
           <img className={classes.logo} alt="Daccel" src={logo} />
         </div>
@@ -431,7 +351,7 @@ const Register = () => {
           </div>
         )}
         <button
-          type="submit"
+          onClick={handleSignUp}
           className={classes.loginButton}
           disabled={isLoading}
           style={{ cursor: isLoading ? "not-allowed" : "pointer" }}

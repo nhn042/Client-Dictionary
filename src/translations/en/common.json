@@ -51,7 +51,8 @@
       "workEmailPlaceholder": "Input your work email",
       "confirmPasswordTitle": "Confirm Password",
       "passwordPlaceholder": "Input your password",
-      "newPasswordPlaceholder": "Confirm your password"
+      "newPasswordPlaceholder": "Confirm your password",
+      "messerror": "Đăng ký thất bại vui lòng nhập lại"
     },
     "Update": {
       "Name": "Họ và tên",
@@ -109,12 +110,26 @@
     "NguPhap": "Ngữ Pháp",
     "PhatAm": "Phát Âm",
     "TuVung": "Từ Vựng",
-    "sub": "Gửi"
+    "sub": "Gửi",
+    "nguam": "Ngữ Âm",
+    "Tu": "Từ",
+    "cau": "Câu",
+    "loaitu": "Loại Từ",
+    "morongphancau": "Mở rộng các phần của câu",
+    "morongcau2": "Mở rộng câu",
+    "rutgoncau": "Rút gọn câu",
+    "daungatcau": "Dấu ngắt câu",
+    "noteviet": "Nhập tiếng việt",
+    "notetay": "Nhập tiếng việt",
+    "noteMT": "Nhập miêu tả"
   },
   "checkOut": {
     "ten": "Họ và tên: ",
     "gioitinh": "Giới tính: ",
     "birthday": "Ngày sinh: ",
     "number": "Số điện thoại: "
+  },
+  "common": {
+    "dong": "Đóng"
   }
 }
