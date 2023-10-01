@@ -18,6 +18,10 @@ import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
 import { Field } from "@atlaskit/form";
 import Select from "@atlaskit/select";
 import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "../../constant";
+import {
+  handleGetAllWord,
+  handleUpdateWord,
+} from "../../../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -82,6 +86,18 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
     },
   },
+  errorMessageContainer: {
+    color: "#D92929",
+    fontSize: "16px",
+    marginBottom: "15px",
+    display: "flex",
+  },
+  sucessMessageContainer: {
+    color: "#1fd91f",
+    fontSize: "16px",
+    marginBottom: "15px",
+    display: "flex",
+  },
   title: {
     fontSize: "24px",
   },
@@ -124,20 +140,40 @@ const WordNew = () => {
   const classes = useStyles();
   const [checkIsLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
+  const [isAddWord, setIsAddWord] = React.useState(false);
   const [tableRows, setTableRows] = useState([]);
+  const [dataWord, setDataWord] = useState([]);
   const [wordViet, setWordViet] = useState();
   const [wordTay, setWordTay] = useState();
   const [description, setDescription] = useState();
   const [wordType, setwordType] = useState();
   const [currentPage, setCurrentPage] = React.useState(1);
+  const [sucessMessage, setSucessMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
   const { t } = useTranslation();
-
   const handleExpand = () => {
     setExpanded(!expanded);
   };
 
-  const handleAddWord = () => {
-    setIsLoading(true);
+  const handleGetWord = async () => {
+    let wordData = await handleGetAllWord();
+    setDataWord(wordData.data);
+  };
+
+  const handleAddWord = async () => {
+    const res = await handleUpdateWord({
+      viet: wordViet,
+      tay: wordTay,
+      dokho: wordType.label,
+      dacdiem: description,
+    });
+    console.log('res', res);
+    if(res.status === 200) {
+    // await handleGetWord();
+    setSucessMessage(t("word.messSucess"));
+    } else {
+      setErrorMessage(t("word.messFaild"));
+    }
   };
 
   const head = {
@@ -166,35 +202,8 @@ const WordNew = () => {
       },
     ],
   };
-
-  const newData = [
-    {
-      a: "1",
-      b: "2",
-      c: "3",
-      d: "4",
-    },
-    {
-      a: "1",
-      b: "2",
-      c: "3",
-      d: "4",
-    },
-    {
-      a: "1",
-      b: "2",
-      c: "3",
-      d: "4",
-    },
-    {
-      a: "1",
-      b: "2",
-      c: "3",
-      d: "4",
-    },
-  ];
   const getRows = () => {
-    const rows = newData?.map((detail) => {
+    const rows = dataWord?.map((detail) => {
       const itemKey = detail?.key;
       const dataRow = {
         key: itemKey,
@@ -203,7 +212,7 @@ const WordNew = () => {
             key: "Tiếng Việt",
             content: (
               <div className={classes.displayName}>
-                <div>{detail?.a}</div>
+                <div>{detail?.viet}</div>
               </div>
             ),
           },
@@ -213,19 +222,19 @@ const WordNew = () => {
               <div
                 style={{ display: "flex", gap: "5px", alignItems: "center" }}
               >
-                {detail?.b}
+                {detail?.tay}
               </div>
             ),
           },
           {
             key: "Loại Từ",
             "data-align": "center",
-            content: <div>{detail?.c}</div>,
+            content: <div>{detail?.dokho}</div>,
           },
           {
             key: "Miêu Tả",
             "data-align": "center",
-            content: <div>{detail?.d}</div>,
+            content: <div>{detail?.dacdiem}</div>,
           },
         ],
       };
@@ -235,12 +244,22 @@ const WordNew = () => {
   };
   useEffect(() => {
     getRows();
+    handleGetWord();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [newData]);
+    getRows();
+  }, [dataWord]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrorMessage(false);
+      setSucessMessage(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [errorMessage, sucessMessage]);
 
   return (
     <div className={classes.container}>
@@ -250,33 +269,27 @@ const WordNew = () => {
             <span>{t("word.viet")}</span>
             <Textfield
               className={classes.input}
-              placeholder={t(
-                "word.noteviet"
-              )}
+              placeholder={t("word.noteviet")}
               value={wordViet}
-              onChange={(e) => setWordViet(e.target.value())}
+              onChange={(e) => setWordViet(e.target.value)}
             />
           </div>
           <div className={classes.inputForm}>
             <span>{t("word.tay")}</span>
             <Textfield
               className={classes.input}
-              placeholder={t(
-                "word.notetay"
-              )}
+              placeholder={t("word.notetay")}
               value={wordTay}
-              onChange={(e) => setWordTay(e.target.value())}
+              onChange={(e) => setWordTay(e.target.value)}
             />
           </div>
           <div className={classes.inputForm}>
             <span>{t("word.description")}</span>
             <Textfield
               className={classes.input}
-              placeholder={t(
-                "word.noteMT"
-              )}
+              placeholder={t("word.noteMT")}
               value={description}
-              onChange={(e) => setDescription(e.target.value())}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <div className={classes.searchItem}>
@@ -292,11 +305,21 @@ const WordNew = () => {
                 { label: "Khó", value: "tính từ" },
               ]}
               onChange={(newValue) => {
-                setwordType(newValue)
+                setwordType(newValue);
               }}
             />
           </div>
         </div>
+        {sucessMessage && (
+          <div className={classes.sucessMessageContainer}>
+            <span>{sucessMessage}</span>
+          </div>
+        )}
+                {errorMessage && (
+          <div className={classes.errorMessageContainer}>
+            <span>{errorMessage}</span>
+          </div>
+        )}
         <div>
           <LoadingButton
             appearance="primary"
@@ -337,7 +360,7 @@ const WordNew = () => {
             <DynamicTable
               head={head}
               rows={tableRows}
-              rowsPerPage={2}
+              rowsPerPage={dataWord.length}
               defaultPage={1}
               // emptyView={emptyTable()}
               page={currentPage}

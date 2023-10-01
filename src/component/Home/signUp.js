@@ -4,17 +4,19 @@
 // import WarningIcon from '@atlaskit/icon/glyph/warning'
 // import Spinner from '@atlaskit/spinner'
 import IconButton from "@material-ui/core/IconButton";
+import { DatePicker } from "@atlaskit/datetime-picker";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
+import Select from "@atlaskit/select";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 // import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import { handleUserRegisterApi } from "../../services/userService";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import logo from "../../images/d_accel_yoko.png";
+import logo from "../../images/logo.png";
 // import screenDefaultApis from '../../services/screenDefaultApis'
 // import { AuthContext } from './AuthProvider'
 
@@ -24,7 +26,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: "332px",
+    width: "500px",
     height: "100%",
   },
   logoContainer: {
@@ -32,7 +34,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
   },
   logo: {
-    width: "192px",
+    width: "68px",
   },
 
   loginTitle: {
@@ -45,7 +47,14 @@ const useStyles = makeStyles(() => ({
   wordEmailField: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "60px",
+    marginTop: "15px",
+    width: "100%",
+    height: "69px",
+  },
+
+  wordNameField: {
+    gap: 20,
+    display: "flex",
     width: "100%",
   },
 
@@ -141,6 +150,13 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  date: {
+    width: "100%",
+    "& > div > div > div": {
+      borderRadius: "30px",
+      marginTop: "10px",
+    },
+  },
   signUp: {
     marginLeft: "10px",
     fontWeight: "500",
@@ -150,6 +166,13 @@ const useStyles = makeStyles(() => ({
     "&:hover": {
       opacity: "0.8",
       textDecoration: "underline",
+    },
+  },
+  searchItem: {
+    width: "100%",
+    "& > div > div": {
+      borderRadius: "30px",
+      marginTop: "10px",
     },
   },
   loginButton: {
@@ -172,14 +195,14 @@ const useStyles = makeStyles(() => ({
     },
     color: "#F0FFF0",
   },
-  errorMessageContainer: {
+  messageContainer: {
     color: "#D92929",
     fontSize: "16px",
     width: "100%",
-    marginTop: "10px",
+    marginTop: "50px",
     display: "flex",
   },
-  errorMessage: {
+  message: {
     marginLeft: "5px",
   },
 }));
@@ -194,13 +217,18 @@ const Register = () => {
   //     setShowSuccessfulChangePasswordNoti,
   //   } = useContext(AuthContext)
   const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [date, setDate] = useState("");
+  const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const [newPassword, setNewPassword] = useState("");
   const [userAttr, setUserAttr] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -234,13 +262,21 @@ const Register = () => {
   const handleSignUp = async (e) => {
     try {
       e.preventDefault();
-      let userData = await handleUserRegisterApi(name, email, password);
-      console.log("userData", userData);
-      navigate("/", { replace: true });
+      console.log(name, email, password, date, gender, address);
+      let userData = await handleUserRegisterApi(
+        name,
+        email,
+        password,
+        date,
+        number,
+        gender.label,
+        address
+      );
+      setSuccessMessage(t("auth.signUp.messcorect"));
     } catch (err) {
       console.log(err);
-      setIsLoading(false)
-      setErrorMessage(t('auth.signUp.messerror'))
+      setIsLoading(false);
+      setErrorMessage(t("auth.signUp.messerror"));
     }
   };
 
@@ -248,12 +284,13 @@ const Register = () => {
     // setShowSuccessfulChangePasswordNoti(false)
   };
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowSuccessfulChangePasswordNoti(false)
-  //   }, 4000)
-  //   return () => clearTimeout(timer)
-  // }, [])
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSuccessMessage(false)
+      setErrorMessage(false)
+    }, 4000)
+    return () => clearTimeout(timer)
+  }, [errorMessage, successMessage])
 
   return (
     <>
@@ -263,37 +300,73 @@ const Register = () => {
         </div>
         <span className={classes.loginTitle}>{t("auth.signUp.signUp")}</span>
         <>
-          <div className={classes.wordEmailField}>
-            <span className={classes.wordEmailTitle}>
-              {t("auth.signUp.name")}
-            </span>
-            <Input
-              onFocus={() => setErrorMessage(null)}
-              required
-              disabled={isLoading}
-              className={classes.input}
-              disableUnderline
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              placeholder={t("auth.signUp.workNamePlaceholder")}
-            />
+          <div className={classes.wordNameField}>
+            <div className={classes.wordEmailField}>
+              <span className={classes.wordEmailTitle}>
+                {t("auth.signUp.emailTitle")}
+              </span>
+              <Input
+                onFocus={() => setErrorMessage(null)}
+                required
+                disabled={isLoading}
+                className={classes.input}
+                disableUnderline
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder={t("auth.signUp.workEmailPlaceholder")}
+              />
+            </div>
+            <div className={classes.wordEmailField}>
+              <span className={classes.wordEmailTitle}>
+                {t("auth.signUp.name")}
+              </span>
+              <Input
+                onFocus={() => setErrorMessage(null)}
+                required
+                disabled={isLoading}
+                className={classes.input}
+                disableUnderline
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder={t("auth.signUp.workNamePlaceholder")}
+              />
+            </div>
           </div>
+          <div className={classes.wordNameField}>
+            <div className={classes.wordEmailField}>
+              <span className={classes.wordEmailTitle}>
+                {t("auth.signUp.address")}
+              </span>
+              <Input
+                onFocus={() => setErrorMessage(null)}
+                required
+                disabled={isLoading}
+                className={classes.input}
+                disableUnderline
+                value={address}
+                onChange={(event) => setAddress(event.target.value)}
+                placeholder={t("auth.signUp.addressPlaceholder")}
+              />
+            </div>
+            <div className={classes.wordEmailField}>
+              <span className={classes.wordEmailTitle}>
+                {t("auth.signUp.number")}
+              </span>
+              <Input
+                onFocus={() => setErrorMessage(null)}
+                required
+                disabled={isLoading}
+                className={classes.input}
+                disableUnderline
+                type={number}
+                value={number}
+                onChange={(event) => setNumber(event.target.value)}
+                placeholder={t("auth.signUp.workSDTPlaceholder")}
+              />
+            </div>
+          </div>
+          <div className={classes.wordNameField}></div>
 
-          <div className={classes.passwordOrMailField}>
-            <span className={classes.wordEmailTitle}>
-              {t("auth.signUp.emailTitle")}
-            </span>
-            <Input
-              onFocus={() => setErrorMessage(null)}
-              required
-              disabled={isLoading}
-              className={classes.input}
-              disableUnderline
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder={t("auth.signUp.workEmailPlaceholder")}
-            />
-          </div>
           <div className={classes.passwordOrMailField}>
             <span className={classes.passwordTitle}>
               {t("auth.login.passwordTitle")}
@@ -343,11 +416,54 @@ const Register = () => {
               }
             />
           </div>
+          <div
+            className={classes.passwordOrMailField}
+            style={{ marginTop: "15px" }}
+          >
+            <span className={classes.wordEmailTitle}>
+              {t("auth.signUp.date")}
+            </span>
+            <div className={classes.date}>
+              <DatePicker
+                value={date}
+                onChange={(date) => setDate(date)}
+                selectProps={{
+                  inputId: "default-date-picker-example",
+                }}
+              />
+            </div>
+            <div className={classes.wordEmailField}>
+              <span className={classes.wordEmailTitle}>
+                {t("auth.signUp.gender")}
+              </span>
+              <div className={classes.searchItem}>
+                <Select
+                  inputId="single-select-example"
+                  // className="single-select"
+                  value={gender}
+                  classNamePrefix="react-select"
+                  options={[
+                    { label: "Nam", value: "nam" },
+                    { label: "Nữ", value: "nu" },
+                  ]}
+                  onChange={(newValue) => {
+                    setGender(newValue);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
         </>
         {errorMessage && (
-          <div className={classes.errorMessageContainer}>
+          <div className={classes.messageContainer}>
             {/* <WarningIcon /> */}
-            <span className={classes.errorMessage}>{errorMessage}</span>
+            <span className={classes.message}>{errorMessage}</span>
+          </div>
+        )}
+        {successMessage && (
+          <div className={classes.messageContainer}>
+            {/* <WarningIcon /> */}
+            <span className={classes.message}>{successMessage}</span>
           </div>
         )}
         <button

@@ -2,10 +2,10 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import ScreenIcon from "@atlaskit/icon/glyph/screen";
 import QueuesIcon from "@atlaskit/icon/glyph/queues";
-import SuitcaseIcon from '@atlaskit/icon/glyph/suitcase'
 import { makeStyles } from "@material-ui/core/styles";
+import SuitcaseIcon from '@atlaskit/icon/glyph/suitcase'
 import EditFilledIcon from "@atlaskit/icon/glyph/edit-filled";
-import WordNew from "./Learn/Note/wordNew";
+import Theory from "./Learn/NoiDunghoc/theory";
 import { useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Courses = () => {
+const ContentWord = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -80,10 +80,10 @@ const Courses = () => {
         </span>
       </div>
       <div className={classes.rightBox}>
-        <WordNew />
+        <Theory />
       </div>
     </div>
   );
 };
 
-export default Courses;
+export default ContentWord;

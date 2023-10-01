@@ -6,8 +6,10 @@
 import IconButton from "@material-ui/core/IconButton";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import { DatePicker } from "@atlaskit/datetime-picker";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Select from "@atlaskit/select";
 import PersonCircleIcon from "@atlaskit/icon/glyph/person-circle";
 import EditIcon from "@atlaskit/icon/glyph/edit";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,6 +21,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/logoLogin.png";
+import { handleUpdateInfor } from "../../services/userService";
 // import screenDefaultApis from '../../services/screenDefaultApis'
 // import { AuthContext } from './AuthProvider'
 
@@ -49,7 +52,20 @@ const useStyles = makeStyles(() => ({
     justifyContent: "center",
     flexDirection: "row",
   },
-
+  searchItem: {
+    width: "100%",
+    "& > div > div": {
+      borderRadius: "30px",
+      marginTop: "10px",
+    },
+  },
+  date: {
+    width: "100%",
+    "& > div > div > div": {
+      borderRadius: "30px",
+      marginTop: "10px",
+    },
+  },
   loginTitle: {
     fontWeight: "600",
     fontSize: "24px",
@@ -60,7 +76,7 @@ const useStyles = makeStyles(() => ({
   wordEmailField: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "60px",
+    marginTop: "15px",
     width: "100%",
   },
 
@@ -179,7 +195,7 @@ const useStyles = makeStyles(() => ({
     gap: "25px",
     marginLeft: "30px",
     marginTop: "50px",
-    width: "25%"
+    width: "25%",
   },
   updateInfor: {
     display: "flex",
@@ -224,6 +240,11 @@ const useStyles = makeStyles(() => ({
     },
     color: "#F0FFF0",
   },
+  wordNameField: {
+    gap: 20,
+    display: "flex",
+    width: "100%",
+  },
   errorMessageContainer: {
     color: "#D92929",
     fontSize: "16px",
@@ -248,7 +269,9 @@ const Checkout = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
+  const [date, setDate] = useState("");
   const [address, setAddress] = useState("");
+  const [gender, setGender] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -256,6 +279,7 @@ const Checkout = () => {
   const [isShowConfirmPassword, setIsShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [sucessMessage, setSucessMessage] = useState(null);
 
   const regex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -289,18 +313,27 @@ const Checkout = () => {
   const closeMessage = () => {
     // setShowSuccessfulChangePasswordNoti(false)
   };
-  const onSubmitInfo = (event) => {
-
+  const onSubmitInfo = (event) => {};
+  const onSubmitPass = (event) => {};
+  const handleUpdateInfo = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await handleUpdateInfor(name, email, number, date, gender.label, address);
+      console.log('res', res);
+      setSucessMessage(t("checkOut.messcorect"));
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      setErrorMessage(t("checkOut.messerror"));
+    }
   };
-  const onSubmitPass = (event) => {
-    
-  };
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowSuccessfulChangePasswordNoti(false)
-  //   }, 4000)
-  //   return () => clearTimeout(timer)
-  // }, [])
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setErrorMessage(false);
+      setSucessMessage(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [errorMessage, sucessMessage]);
 
   return (
     <>
@@ -375,46 +408,82 @@ const Checkout = () => {
                     placeholder={t("auth.Update.workEmailPlaceholder")}
                   />
                 </div>
-                <div className={classes.passwordOrMailField}>
-                  <span className={classes.passwordTitle}>
-                    {t("auth.Update.numberPhone")}
-                  </span>
-                  <Input
-                    onFocus={() => setErrorMessage(null)}
-                    required
-                    disabled={isLoading}
-                    type={"number"}
-                    className={classes.input}
-                    disableUnderline
-                    value={number}
-                    onChange={(event) => setNumber(event.target.value)}
-                    placeholder={t("auth.Update.workPhonePlaceholder")}
-                  />
+                <div className={classes.wordNameField}>
+                  <div className={classes.wordEmailField}>
+                    <span className={classes.wordEmailTitle}>
+                      {t("auth.signUp.address")}
+                    </span>
+                    <Input
+                      onFocus={() => setErrorMessage(null)}
+                      required
+                      disabled={isLoading}
+                      className={classes.input}
+                      disableUnderline
+                      value={address}
+                      onChange={(event) => setAddress(event.target.value)}
+                      placeholder={t("auth.signUp.addressPlaceholder")}
+                    />
+                  </div>
+                  <div className={classes.wordEmailField}>
+                    <span className={classes.passwordTitle}>
+                      {t("auth.Update.numberPhone")}
+                    </span>
+                    <Input
+                      onFocus={() => setErrorMessage(null)}
+                      required
+                      disabled={isLoading}
+                      type={"number"}
+                      className={classes.input}
+                      disableUnderline
+                      value={number}
+                      onChange={(event) => setNumber(event.target.value)}
+                      placeholder={t("auth.Update.workPhonePlaceholder")}
+                    />
+                  </div>
                 </div>
                 <div className={classes.passwordOrMailField}>
-                  <span className={classes.passwordTitle}>
-                    {t("auth.Update.Address")}
+                  <span className={classes.wordEmailTitle}>
+                    {t("auth.signUp.date")}
                   </span>
-                  <Input
-                    onFocus={() => setErrorMessage(null)}
-                    required
-                    disabled={isLoading}
-                    className={classes.input}
-                    disableUnderline
-                    value={address}
-                    onChange={(event) => setAddress(event.target.value)}
-                    placeholder={t("auth.Update.workAddressPlaceholder")}
+                  <div className={classes.date}>
+                  <DatePicker
+                    value={date}
+                    onChange={(date) => setDate(date)}
+                    selectProps={{
+                      inputId: "default-date-picker-example",
+                    }}
                   />
+                  </div>
+                </div>
+                <div className={classes.passwordOrMailField}>
+                  <span className={classes.wordEmailTitle}>
+                    {t("auth.signUp.gender")}
+                  </span>
+                  <div className={classes.searchItem}>
+                    <Select
+                      inputId="single-select-example"
+                      value={gender}
+                      classNamePrefix="react-select"
+                      options={[
+                        { label: "Nam", value: "nam" },
+                        { label: "Nữ", value: "nu" },
+                      ]}
+                      onChange={(newValue) => {
+                        setGender(newValue);
+                      }}
+                    />
+                  </div>
                 </div>
                 <button
-                type="submit"
-                className={classes.loginButton}
-                disabled={isLoading}
-                style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-              >
-                {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
-                {t("auth.Update.Update")}
-              </button>
+                  type="submit"
+                  className={classes.loginButton}
+                  disabled={isLoading}
+                  style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+                  onClick={handleUpdateInfo}
+                >
+                  {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
+                  {t("auth.Update.Update")}
+                </button>
               </div>
               {errorMessage && (
                 <div className={classes.errorMessageContainer}>
@@ -422,7 +491,12 @@ const Checkout = () => {
                   <span className={classes.errorMessage}>{errorMessage}</span>
                 </div>
               )}
-
+              {sucessMessage && (
+                <div className={classes.errorMessageContainer}>
+                  {/* <WarningIcon /> */}
+                  <span className={classes.errorMessage}>{sucessMessage}</span>
+                </div>
+              )}
             </form>
           ) : (
             <form onSubmit={onSubmitPass} className={classes.rightContent}>
@@ -445,7 +519,10 @@ const Checkout = () => {
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder={t("auth.Update.workPassPlaceholder")}
                     endAdornment={
-                      <InputAdornment position="end" className={classes.eyesIcon}>
+                      <InputAdornment
+                        position="end"
+                        className={classes.eyesIcon}
+                      >
                         <IconButton
                           onClick={handleClickShowPassWord}
                           size="small"
@@ -472,7 +549,10 @@ const Checkout = () => {
                     onChange={(event) => setConfirmPassword(event.target.value)}
                     placeholder={t("auth.Update.workNewPasssPlaceholder")}
                     endAdornment={
-                      <InputAdornment position="end" className={classes.eyesIcon}>
+                      <InputAdornment
+                        position="end"
+                        className={classes.eyesIcon}
+                      >
                         <IconButton
                           onClick={handleClickShowConfirmPassWord}
                           size="small"
@@ -488,14 +568,14 @@ const Checkout = () => {
                   />
                 </div>
                 <button
-                type="submit"
-                className={classes.loginButton}
-                disabled={isLoading}
-                style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
-              >
-                {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
-                {t("auth.Update.Update")}
-              </button>
+                  type="submit"
+                  className={classes.loginButton}
+                  disabled={isLoading}
+                  style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
+                >
+                  {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
+                  {t("auth.Update.Update")}
+                </button>
               </div>
               {errorMessage && (
                 <div className={classes.errorMessageContainer}>
@@ -503,7 +583,6 @@ const Checkout = () => {
                   <span className={classes.errorMessage}>{errorMessage}</span>
                 </div>
               )}
-
             </form>
           )}
         </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import anh0 from "../../../../images/anh11.png";
@@ -14,6 +14,7 @@ import anh9 from "../../../../images/anh9.png";
 import anh10 from "../../../../images/anh10.png";
 import Textfield from "@atlaskit/textfield";
 import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
+import openVideo from "./openVideo";
 import Button from "@atlaskit/button";
 import Form from "@atlaskit/form";
 import Modal, {
@@ -22,7 +23,7 @@ import Modal, {
   ModalHeader,
   ModalTitle,
   ModalTransition,
-} from '@atlaskit/modal-dialog';
+} from "@atlaskit/modal-dialog";
 import Example from "./modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -86,118 +87,159 @@ const useStyles = makeStyles((theme) => ({
   video: {
     width: "100%",
     height: "100%",
-  }
+  },
 }));
 const Video = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [isOpenVideo1, setIsOpenVideo1] = useState(false);
-  const handleVideo1 = () => {
+  const [wordSearch, setWordSearch] = useState("");
+  const [nameVideo, setNameVideo] = useState([]);
+  let Data = [
+    "Học tiếng Tày - Nùng Online. Bài 4: Số đếm",
+    "HỌC TIẾNG TÀY BÀI 3",
+    "HỌC TIẾNG TÀY #1 - XƯNG HÔ TRONG GIA ĐÌNH VÀ ĐẾM SỐ",
+    "HỌC TIẾNG TÀY BÀI 2",
+    "HỌC TIẾNG TÀY BÀI 4 - Những Mẫu Câu Thông Dụng Mỗi Ngày",
+    "Học tiếng Tày - Nùng| Chủ đề 3: Từ vựng xưng hô trong quan hệ gia đình",
+    "Bài 1: Tiếng Tày - Nùng Không Khó Lắm | Tiểng Tày - Nùng Mí Slài Khỏ Học Tiếng Tày - Nùng",
+    "Học tiếng Tày - Nùng Online. Bài 1: Chào hỏi",
+    "Học tiếng Tày - Nùng online: Bài 2. Tên gì? Ở đâu?",
+    "Học tiếng Tày - Nùng Online. Bài 3: Đại từ nhân xưng",
+  ]
+  const handleVideo1 = (check) => {
+    console.log('check', check);
     setIsOpenVideo1(true);
   };
   const closeModal = () => {
     setIsOpenVideo1(false);
   };
-  const number = ['1', '2']
-  const listVideo = [{id: 1, name: "Học tiếng Tày - Nùng Online. Bài 4: Số đếm", anh: anh0}, 
-  {id: 2, name: "HỌC TIẾNG TÀY BÀI 3", anh: anh1}, ]
+  const handleSearch = (key, value) => {
+    let newData = Data;
+    newData = newData.filter((item) =>
+      item?.toLowerCase().includes(value.toLowerCase())
+    );
+    console.log("newData", newData);
+    setNameVideo(newData);
+  };
+
+  const number = ["1", "2"];
+  const listVideo = [
+    { id: 1, name: "Học tiếng Tày - Nùng Online. Bài 4: Số đếm", anh: anh0 },
+    { id: 2, name: "HỌC TIẾNG TÀY BÀI 3", anh: anh1 },
+  ];
+  useEffect(() => {
+    setNameVideo(Data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+  ])
   return (
     <>
-    <div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-        }}
-      >
-        <div></div>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <div className={classes.search}>
-            <Textfield className={classes.input} />
-          </div>
-          <div className={classes.buttonSearch}>
-            <div className={classes.border}>
-              {" "}
-              <EditorSearchIcon size="large" />{" "}
+      <div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <div></div>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className={classes.search}>
+              <Textfield
+            elemBeforeInput={
+              <EditorSearchIcon
+                label="search icon"
+                primaryColor="rgb(94, 108, 132)"
+              />
+            }
+                value={wordSearch}
+                onChange={(e) => setWordSearch(e.target.value)}
+                onKeyPress={(e) => {
+                  if (e.key === "Enter")
+                    handleSearch("keyword", e.target.value);
+                }}
+                className={classes.input}
+                onFocus={(e) => {
+                  handleSearch('keyword', e.target.value)
+                }}
+              />
             </div>
           </div>
+          <div></div>
         </div>
         <div></div>
-      </div>
-      <div>
-</div>
-      <div className={classes.container}>
-        {
-          listVideo.map((item, index) => {
+        <div className={classes.container}>
+          {nameVideo[0] && (
+            <div onClick={handleVideo1}>
+              <img className={classes.group} alt="Dictionary" src={anh0} />
+              <span>{nameVideo[0]}</span>
+            </div>
+          )}
+          {nameVideo[1] && (
             <div>
-              </div>
-          //   <div key={item.id}>
-          //                 123
-          //   <img className={classes.group} alt="Dictionary" src={item.anh} />
-          //   <span>{item.name}</span>
-          // </div>
-
-
-          })
-        }
-        {/* <div onClick={handleVideo1}>
-          <img className={classes.group} alt="Dictionary" src={anh0} />
-          <span>Học tiếng Tày - Nùng Online. Bài 4: Số đếm</span>
+              <img className={classes.group} alt="Dictionary" src={anh1} />
+              <span>{nameVideo[1]}</span>
+            </div>
+          )}
+          {nameVideo[2] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh2} />
+              <span>{nameVideo[2]}</span>
+            </div>
+          )}
+          {nameVideo[3] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh3} />
+              <span>{nameVideo[3]}</span>
+            </div>
+          )}
+          {nameVideo[4] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh4} />
+              <span>{nameVideo[4]}</span>
+            </div>
+          )}
+          {nameVideo[5] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh6} />
+              <span>{nameVideo[5]}</span>
+            </div>
+          )}
+          {nameVideo[6] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh7} />
+              <span>{nameVideo[6]}</span>
+            </div>
+          )}
+          {nameVideo[7] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh8} />
+              <span>{nameVideo[7]}</span>
+            </div>
+          )}
+          {nameVideo[8] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh9} />
+              <span>{nameVideo[8]}</span>
+            </div>
+          )}
+          {nameVideo[9] && (
+            <div>
+              <img className={classes.group} alt="Dictionary" src={anh10} />
+              <span>{nameVideo[9]}</span>
+            </div>
+          )}
         </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh1} />
-          <span>HỌC TIẾNG TÀY BÀI 3</span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh2} />
-          <span>HỌC TIẾNG TÀY #1 - XƯNG HÔ TRONG GIA ĐÌNH VÀ ĐẾM SỐ</span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh3} />
-          <span>HỌC TIẾNG TÀY BÀI 2</span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh4} />
-          <span>HỌC TIẾNG TÀY BÀI 4 - Những Mẫu Câu Thông Dụng Mỗi Ngày</span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh6} />
-          <span>
-            |Học tiếng Tày - Nùng| Chủ đề 3: Từ vựng xưng hô trong quan hệ gia
-            đình
-          </span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh7} />
-          <span>
-            Bài 1: Tiếng Tày - Nùng Không Khó Lắm | Tiểng Tày - Nùng Mí Slài Khỏ
-            | Học Tiếng Tày - Nùng
-          </span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh8} />
-          <span>Học tiếng Tày - Nùng Online. Bài 1: Chào hỏi</span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh9} />
-          <span>Học tiếng Tày - Nùng online: Bài 2. Tên gì? Ở đâu?</span>
-        </div>
-        <div>
-          <img className={classes.group} alt="Dictionary" src={anh10} />
-          <span>Học tiếng Tày - Nùng Online. Bài 3: Đại từ nhân xưng</span>
-        </div> */}
+        {isOpenVideo1 && (
+          <Example
+            isOpentest={isOpenVideo1}
+            closeModal={closeModal}
+            style={{ marginTop: "50px" }}
+          />
+        )}
       </div>
-      {isOpenVideo1 && (
-        <Example
-        isOpentest={isOpenVideo1}
-        closeModal={closeModal}
-        style={{marginTop: "50px"}}
-        />
-      )
-      }
-    </div>
-</>
+    </>
   );
 };
 

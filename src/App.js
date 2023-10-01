@@ -14,6 +14,10 @@ import DropdownItemDescriptionExample from "./component/Courses/Learn/Watch/vide
 import HomeZoom from "./component/joinZoom/homeZoom";
 import Room from "./component/joinZoom/Room";
 import Game from "./component/Game/game";
+import HomeLearn from "./component/Courses";
+import ContentWord from "./component/Courses/content";
+import CoursesVideo from "./component/Courses/video";
+import ContentDictionary from "./component/Courses/Dictionary";
 function App() {
   return (
     <Router>
@@ -78,7 +82,7 @@ function App() {
           path="/courses"
           element={
             <HomeMain>
-              <Courses />
+              <HomeLearn />
             </HomeMain>
           }
         />
@@ -114,6 +118,54 @@ function App() {
             </HomeMain>
           }
         />
+        <Route
+          path="/courses/note"
+          element={
+            <HomeMain>
+              <Courses />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/courses/dictionary"
+          element={
+            <HomeMain>
+              <ContentDictionary />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/courses/content"
+          element={
+            <HomeMain>
+              <ContentWord />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/courses/video"
+          element={
+            <HomeMain>
+              <CoursesVideo />
+            </HomeMain>
+          }
+        />
+        {/* <Route
+          path="/content"
+          element={
+            <HomeMain>
+              <Theory />
+            </HomeMain>
+          }
+        />
+        <Route
+          path="/video"
+          element={
+            <HomeMain>
+              <Video />
+            </HomeMain>
+          }
+        /> */}
       </Routes>
     </Router>
   );

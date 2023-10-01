@@ -110,14 +110,6 @@ const WrapperComponent = ({ children }) => {
       </div>
       <div className={classes.rightPart}>
         {children}
-        <div className={classes.policyField}>
-          <div className={classes.policyInfo}>
-                  aa
-          </div>
-          <span className={classes.company}>
-            2022 © Ricksoft Co., Ltd. All Rights Reserved.
-          </span>
-        </div>
       </div>
     </div>
   )
