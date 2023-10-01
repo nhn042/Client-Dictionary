@@ -19,6 +19,7 @@ import React, {
   import Select from "@atlaskit/select";
   import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "../../constant";
   import {
+    getAllWordDictionary,
     handleGetAllWord,
     handleUpdateWord,
   } from "../../../../services/userService";
@@ -140,13 +141,9 @@ import React, {
     const classes = useStyles();
     const [checkIsLoading, setIsLoading] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
-    const [isAddWord, setIsAddWord] = React.useState(false);
     const [tableRows, setTableRows] = useState([]);
-    const [dataWord, setDataWord] = useState([]);
+    const [dataFinal, setDataFinal] = useState([]);
     const [wordViet, setWordViet] = useState();
-    const [wordTay, setWordTay] = useState();
-    const [description, setDescription] = useState();
-    const [wordType, setwordType] = useState();
     const [currentPage, setCurrentPage] = React.useState(1);
     const [sucessMessage, setSucessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
@@ -156,24 +153,11 @@ import React, {
     };
   
     const handleGetWord = async () => {
-      let wordData = await handleGetAllWord();
-      setDataWord(wordData.data);
+      let wordData = await getAllWordDictionary();
+      setDataFinal(wordData.data);
     };
-  
+  console.log('dataFinal', dataFinal);
     const handleFindWord = async () => {
-      const res = await handleUpdateWord({
-        viet: wordViet,
-        tay: wordTay,
-        dokho: wordType.label,
-        dacdiem: description,
-      });
-      console.log('res', res);
-      if(res.status === 200) {
-      // await handleGetWord();
-      setSucessMessage(t("word.messSucess"));
-      } else {
-        setErrorMessage(t("word.messFaild"));
-      }
     };
   
     const head = {
@@ -198,8 +182,8 @@ import React, {
       ],
     };
     const getRows = () => {
-      const rows = dataWord?.map((detail) => {
-        const itemKey = detail?.key;
+      const rows = dataFinal?.map((detail) => {
+        const itemKey = detail?.tay;
         const dataRow = {
           key: itemKey,
           cells: [
@@ -222,11 +206,6 @@ import React, {
               ),
             },
             {
-              key: "Loại Từ",
-              "data-align": "center",
-              content: <div>{detail?.dokho}</div>,
-            },
-            {
               key: "Miêu Tả",
               "data-align": "center",
               content: <div>{detail?.dacdiem}</div>,
@@ -246,7 +225,7 @@ import React, {
     useEffect(() => {
       setCurrentPage(1);
       getRows();
-    }, [dataWord]);
+    }, [dataFinal]);
   
     useEffect(() => {
       const timer = setTimeout(() => {
@@ -302,8 +281,8 @@ import React, {
               <DynamicTable
                 head={head}
                 rows={tableRows}
-                rowsPerPage={dataWord.length}
-                defaultPage={1}
+                rowsPerPage={dataFinal.length}
+                defaultPage={20}
                 // emptyView={emptyTable()}
                 page={currentPage}
                 // isLoading={isFetchingData}
