@@ -135,7 +135,7 @@
     "daungatcau": "Dấu ngắt câu",
     "noteviet": "Nhập tiếng việt",
     "notetimkiem": "Nhập từ cần tìm",
-    "notetay": "Nhập tiếng việt",
+    "notetay": "Nhập tiếng tày",
     "noteMT": "Nhập miêu tả"
   },
   "checkOut": {
@@ -147,6 +147,8 @@
     "messcorect": "Cập nhật thông tin thành công"
   },
   "common": {
-    "dong": "Đóng"
+    "dong": "Đóng",
+    "emptyDataTable": "Không có dữ liệu",
+    "page": "trang"
   }
 }

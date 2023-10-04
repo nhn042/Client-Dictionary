@@ -33,9 +33,9 @@ const Search = () => {
     setResponse(false);
   };
   const changeSearch = () => {
-    leftSelect === 'Viet' ? setLeftSelect('Tay') : setLeftSelect('Viet');
-    rightSelect === 'Viet' ? setRightSelect('Tay') : setRightSelect('Viet');
-  }
+    leftSelect === "Viet" ? setLeftSelect("Tay") : setLeftSelect("Viet");
+    rightSelect === "Viet" ? setRightSelect("Tay") : setRightSelect("Viet");
+  };
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
@@ -72,7 +72,7 @@ const Search = () => {
           </div>
           <div className="search-box">
             <textarea
-              placeholder="Search..."
+              placeholder="Tìm kiếm..."
               value={word}
               onChange={(e) => setWord(e.target.value)}
             ></textarea>
@@ -83,7 +83,7 @@ const Search = () => {
         </div>
         <div className="left-panel">
           <div>
-          <select
+            <select
               value={rightSelect}
               onChange={(e) => setRightSelect(e.target.value)}
             >
@@ -133,7 +133,7 @@ const Search = () => {
       <div className="button">
         <button className="search" onClick={handleSubmit}>
           {" "}
-          Search{" "}
+          {t("word.search")}{" "}
         </button>
       </div>
 
