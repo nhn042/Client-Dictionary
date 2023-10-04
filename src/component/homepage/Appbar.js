@@ -4,31 +4,17 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import { useNavigate } from "react-router-dom";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import Button from "@atlaskit/button/standard-button";
 import logo from "../../images/logo.png";
-import UserAvatarCircleIcon from "@atlaskit/icon/glyph/user-avatar-circle";
 import SignOutIcon from "@atlaskit/icon/glyph/sign-out";
-import DropdownMenu, {
-  DropdownItem,
-  DropdownItemGroup,
-} from "@atlaskit/dropdown-menu";
 import PersonIcon from "@atlaskit/icon/glyph/person";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import { useTranslation } from "react-i18next";
-import { withStyles } from "@material-ui/core/styles";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
-import SendIcon from "@material-ui/icons/Send";
-
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "8%",
+    // height: "8%",
     flexGrow: 1,
     position: "fixed",
     top: "0px",
@@ -113,27 +99,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     gap: "25px",
   },
-  icon: {
-    primaryColor: "#303952",
-  },
 }));
 
 const MenuAppBar = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const classes = useStyles();
+  // eslint-disable-next-line no-unused-vars
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [anchorElMenu, setAnchorElMenu] = React.useState(null);
   const open = Boolean(anchorEl);
-
-  const handleClickMenu = (event) => {
-    setAnchorElMenu(event.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorElMenu(null);
-  };
 
   const handleProfile = (event) => {
     event.preventDefault();
@@ -147,7 +122,7 @@ const MenuAppBar = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
   
   const handleSearch = (event) => {
@@ -174,40 +149,6 @@ const MenuAppBar = () => {
     event.preventDefault();
     navigate("/home", { replace: true });
   };
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
-
-  const StyledMenuItem = withStyles((theme) => ({
-    root: {
-      "&:focus": {
-        backgroundColor: theme.palette.primary.main,
-        "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-          color: theme.palette.common.white,
-        },
-      },
-    },
-  }))(MenuItem);
-
-  const StyledMenu = withStyles({
-    paper: {
-      border: "1px solid #d3d4d5",
-    },
-  })((props) => (
-    <Menu
-      elevation={0}
-      getContentAnchorEl={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      {...props}
-    />
-  ));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);

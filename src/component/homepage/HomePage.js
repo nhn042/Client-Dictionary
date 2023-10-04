@@ -36,7 +36,7 @@ const HomePage = (props) => {
       screenDefault={screenDefault}
       handleSaveScreenDefault={handleSaveScreenDefault}
       listDescription={listDescription}
-      rootPath="/"
+      rootPath="/login"
       keypage={keypage}
       siteAdmin={siteAdmin}
     />

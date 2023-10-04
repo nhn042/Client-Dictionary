@@ -256,7 +256,7 @@ const Register = () => {
 
   const handleBackLogin = (event) => {
     event.preventDefault();
-    navigate("/", { replace: true });
+    navigate("/login", { replace: true });
   };
 
   const handleSignUp = async (e) => {

@@ -45,7 +45,7 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
-    margin: "30px",
+    margin: "30px 0px",
   },
   line: {
     display: "block",

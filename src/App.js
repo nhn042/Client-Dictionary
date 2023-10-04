@@ -23,7 +23,7 @@ function App() {
     <Router>
       <Routes>
         <Route
-          path="/"
+          path="/login"
           element={
             <WrapperComponent>
               <Login />

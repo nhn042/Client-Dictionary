@@ -42,6 +42,10 @@ const handleGetAllWord = async () => {
   return await axios.get("/wordNew");
 };
 
+const handleFindWord = async (category, word) => {
+  return await axios.get(`/find/${category}?query=${word}`);
+};
+
 const handleUpdateWord = async ({ viet, tay, dokho, dacdiem }) => {
   return await axios.post("/update-word", { viet, tay, dokho, dacdiem });
 };
@@ -57,4 +61,5 @@ export {
   handleGetAllWord,
   handleUpdateWord,
   getAllWordDictionary,
+  handleFindWord,
 };

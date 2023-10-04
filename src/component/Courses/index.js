@@ -43,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     marginTop: "85px",
     gap: "15px",
-    fontSize: "18px",
+    fontSize: "23px",
+    fontWeight: "500",
   },
 }));
 

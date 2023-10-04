@@ -1,29 +1,15 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useState,
-  useMemo,
-} from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import LoadingButton from "@atlaskit/button";
 import Textfield from "@atlaskit/textfield";
-import ListIcon from "@atlaskit/icon/glyph/list";
-import Pagination from '@atlaskit/pagination'
+import Pagination from "@atlaskit/pagination";
 import ChevronUpCircleIcon from "@atlaskit/icon/glyph/chevron-up-circle";
 import ChevronDownCircleIcon from "@atlaskit/icon/glyph/chevron-down-circle";
 import { Collapse, IconButton, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DynamicTable from "@atlaskit/dynamic-table";
-import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
-import { Field } from "@atlaskit/form";
-import Select from "@atlaskit/select";
-import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "../../constant";
-import {
-  getAllWordDictionary,
-  handleGetAllWord,
-  handleUpdateWord,
-} from "../../../../services/userService";
+import { TableResponsive } from "../../constant";
+import { getAllWordDictionary } from "../../../../services/userService";
 import {
   DEFAULT_ROW_PER_PAGE,
   emptyTable,
@@ -48,12 +34,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  kindOf: {
-    display: "flex",
-    flexDirection: "row",
-    gap: "12px",
-    alignItems: "center",
-  },
   hover: {
     "&:hover": {
       cursor: "pointer",
@@ -73,19 +53,9 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "2rem",
   },
   pagination: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'flex-end',
-  },
-  searchWrapper: {
     display: "flex",
-    flexWrap: "wrap",
-    maxWidth: "100%",
-    marginBottom: "0",
-    gap: "8px",
-    paddingTop: "1rem",
-    paddingBottom: "30px",
-    alignItems: "center",
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
   inputForm: {
     width: "200px",
@@ -98,18 +68,6 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
     },
   },
-  errorMessageContainer: {
-    color: "#D92929",
-    fontSize: "16px",
-    marginBottom: "15px",
-    display: "flex",
-  },
-  sucessMessageContainer: {
-    color: "#1fd91f",
-    fontSize: "16px",
-    marginBottom: "15px",
-    display: "flex",
-  },
   title: {
     fontSize: "24px",
   },
@@ -117,25 +75,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "2em !important",
     marginTop: "8px",
-  },
-  searchItem: {
-    // flex: 1,
-    minWidth: 230,
-    fontSize: "14px",
-    "& > div > div": {
-      overflow: "visible !important",
-      background: "white",
-      border: "none",
-    },
-    "& > div > div > div > div": {
-      marinTop: "-6px",
-    },
-    "@media screen and (max-width: 1024px)": {
-      flex: 1,
-    },
-    '& input[name="keyword"]': {
-      height: 12,
-    },
   },
   tableHeader: {
     display: "flex",
@@ -150,14 +89,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Dictionary = () => {
   const classes = useStyles();
-  const [checkIsLoading, setIsLoading] = useState(false);
+  const [checkIsLoading, setIsLoading] = useState(true);
   const [expanded, setExpanded] = React.useState(false);
   const [tableRows, setTableRows] = useState([]);
   const [dataFinal, setDataFinal] = useState([]);
+  const [dataMain, setDataMain] = useState([]);
   const [wordViet, setWordViet] = useState();
   const [currentPage, setCurrentPage] = React.useState(1);
-  const [sucessMessage, setSucessMessage] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(
     DEFAULT_ROW_PER_PAGE_OPTIONS()
   );
@@ -167,11 +105,26 @@ const Dictionary = () => {
   };
 
   const handleGetWord = async () => {
+    setIsLoading(true)
     let wordData = await getAllWordDictionary();
     setDataFinal(wordData.data);
+    setDataMain(wordData.data);
+    setIsLoading(false)
   };
-  console.log("dataFinal", dataFinal);
-  const handleFindWord = async () => {};
+
+  const handleSearch = (key, value) => {
+    const newData = dataMain.filter((item) =>
+      item.viet?.toLowerCase().includes(value || "")
+    );
+    setDataFinal(newData);
+  };
+
+  const handleFormatData = async () => {
+    const newData = dataMain.filter((item) =>
+      item.viet?.toLowerCase().includes(wordViet || "")
+    );
+    setDataFinal(newData);
+  };
 
   const head = {
     cells: [
@@ -248,14 +201,6 @@ const Dictionary = () => {
     getRows();
   }, [dataFinal]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setErrorMessage(false);
-      setSucessMessage(false);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [errorMessage, sucessMessage]);
-
   return (
     <div className={classes.container}>
       <div className={classes.buttonSearch}>
@@ -263,6 +208,9 @@ const Dictionary = () => {
           <div className={classes.inputForm}>
             <span>{t("word.Search")}</span>
             <Textfield
+              onKeyPress={(e) => {
+                if (e.key === "Enter") handleSearch("keyword", e.target.value);
+              }}
               className={classes.input}
               placeholder={t("word.notetimkiem")}
               value={wordViet}
@@ -273,8 +221,7 @@ const Dictionary = () => {
         <div>
           <LoadingButton
             appearance="primary"
-            isLoading={checkIsLoading}
-            onClick={handleFindWord}
+            onClick={handleFormatData}
           >
             {t("word.timkiem")}
           </LoadingButton>
@@ -306,25 +253,25 @@ const Dictionary = () => {
               defaultPage={1}
               emptyView={emptyTable()}
               page={currentPage}
-              // isLoading={isFetchingData}
+              isLoading={checkIsLoading}
               loadingSpinnerSize="large"
             />
           </TableResponsive>
-          {dataFinal.length === 0 && (
-          <div className={classes.pagination}>
-            <Pagination
-              defaultSelectedIndex={currentPage - 1}
-              selectedIndex={currentPage - 1}
-              pages={Array.from(
-                {
-                  length: totalPages,
-                },
-                (_v, i) => i + 1,
-              )}
-              onChange={(data, page) => setCurrentPage(page)}
-            />
-          </div>
-        )}
+          {dataFinal.length !== 0 && (
+            <div className={classes.pagination}>
+              <Pagination
+                defaultSelectedIndex={currentPage - 1}
+                selectedIndex={currentPage - 1}
+                pages={Array.from(
+                  {
+                    length: totalPages,
+                  },
+                  (_v, i) => i + 1
+                )}
+                onChange={(data, page) => setCurrentPage(page)}
+              />
+            </div>
+          )}
         </Collapse>
       </div>
     </div>
