@@ -150,6 +150,11 @@ const MenuAppBar = () => {
     navigate("/home", { replace: true });
   };
 
+  const handleIntro = (event) => {
+    event.preventDefault();
+    navigate("/introduce", { replace: true });
+  };
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -173,6 +178,12 @@ const MenuAppBar = () => {
             <span className={classes.in} />
           </span>
           <Typography variant="h6" className={classes.title}>
+            <span onClick={handleIntro}>{t("auth.appBar.Introduce")}</span>
+          </Typography>
+          <span className={classes.out}>
+            <span className={classes.in} />
+          </span>
+          <Typography variant="h6" className={classes.title}>
             <span onClick={handleSearch}>{t("auth.appBar.Search")}</span>
           </Typography>
           <span className={classes.out}>
@@ -187,12 +198,12 @@ const MenuAppBar = () => {
           <Typography variant="h6" className={classes.title}>
             <span onClick={handleZoom}>{t("auth.appBar.Zoom")}</span>
           </Typography>
-          <span className={classes.out}>
+          {/* <span className={classes.out}>
             <span className={classes.in} />
-          </span>
-          <Typography variant="h6" className={classes.title}>
+          </span> */}
+          {/* <Typography variant="h6" className={classes.title}>
             <span onClick={handleGame}>{t("auth.appBar.Game")}</span>
-          </Typography>
+          </Typography> */}
         </div>
         {auth && (
           <div className={classes.menuIcon}>
@@ -226,10 +237,10 @@ const MenuAppBar = () => {
                 <PersonIcon size="medium" />
                 {t("auth.login.profile")}
               </MenuItem>
-              <MenuItem onClick={handleByCourses} className={classes.user}>
+              {/* <MenuItem onClick={handleByCourses} className={classes.user}>
                 <PersonIcon size="medium" />
                 {t("auth.login.courses")}
-              </MenuItem>
+              </MenuItem> */}
               <MenuItem onClick={handleLogin} className={classes.logOut}>
                 <SignOutIcon size="small" className={classes.icon} />
                 <span style={{ fontSize: 16 }}> {t("auth.login.logout")} </span>

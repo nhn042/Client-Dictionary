@@ -279,18 +279,18 @@ const Register = () => {
       setErrorMessage(t("auth.signUp.messerror"));
     }
   };
-
+console.log('date', date);
   const closeMessage = () => {
     // setShowSuccessfulChangePasswordNoti(false)
   };
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSuccessMessage(false)
-      setErrorMessage(false)
-    }, 4000)
-    return () => clearTimeout(timer)
-  }, [errorMessage, successMessage])
+      setSuccessMessage(false);
+      setErrorMessage(false);
+    }, 4000);
+    return () => clearTimeout(timer);
+  }, [errorMessage, successMessage]);
 
   return (
     <>

@@ -1,8 +1,4 @@
 /* eslint-disable no-param-reassign */
-// import CheckboxIcon from '@atlaskit/icon/glyph/checkbox'
-// import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close'
-// import WarningIcon from '@atlaskit/icon/glyph/warning'
-// import Spinner from '@atlaskit/spinner'
 import IconButton from "@material-ui/core/IconButton";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -10,20 +6,20 @@ import { DatePicker } from "@atlaskit/datetime-picker";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Select from "@atlaskit/select";
-import PersonCircleIcon from "@atlaskit/icon/glyph/person-circle";
-import EditIcon from "@atlaskit/icon/glyph/edit";
 import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
-// import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/logoLogin.png";
-import { handleUpdateInfor } from "../../services/userService";
-// import screenDefaultApis from '../../services/screenDefaultApis'
-// import { AuthContext } from './AuthProvider'
+import {
+  handleChangePass,
+  handleUpdateInfor,
+} from "../../services/userService";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const useStyles = makeStyles(() => ({
   rightContent: {
@@ -252,20 +248,25 @@ const useStyles = makeStyles(() => ({
     marginTop: "10px",
     display: "flex",
   },
+  sucessMessageContainer: {
+    color: "#40ff05",
+    fontSize: "16px",
+    width: "100%",
+    marginTop: "10px",
+    display: "flex",
+  },
   errorMessage: {
     marginLeft: "5px",
+  },
+  textInfor: {
+    fontSize: "15px",
+    fontWeight: "600",
   },
 }));
 
 const Checkout = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  //   const {
-  //     authenticate,
-  //     completeNewPasswordChallenge,
-  //     showSuccessfulChangePasswordNoti,
-  //     setShowSuccessfulChangePasswordNoti,
-  //   } = useContext(AuthContext)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
@@ -287,6 +288,7 @@ const Checkout = () => {
   const navigate = useNavigate();
 
   const [value, setValue] = React.useState(2);
+  const user = useSelector((state) => state?.user);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -310,21 +312,72 @@ const Checkout = () => {
     setIsUpdateInfor(false);
   };
 
-  const closeMessage = () => {
-    // setShowSuccessfulChangePasswordNoti(false)
+  const onSubmitInfo = () => {
+    setIsUpdateInfor(false);
   };
-  const onSubmitInfo = (event) => {};
-  const onSubmitPass = (event) => {};
-  const handleUpdateInfo = async (e) => {
+
+  const onSubmitPass = async (e) => {
+    e.preventDefault();
     try {
-      e.preventDefault();
-      const res = await handleUpdateInfor(name, email, number, date, gender.label, address);
-      console.log('res', res);
-      setSucessMessage(t("checkOut.messcorect"));
+      if (password === confirmPassword) {
+        const res = await handleChangePass(user.id, password);
+        console.log(res);
+        setSucessMessage(t("checkOut.messCorrect"));
+      } else {
+        setErrorMessage(t("checkOut.messFaildChange"));
+      }
     } catch (err) {
       console.log(err);
       setIsLoading(false);
-      setErrorMessage(t("checkOut.messerror"));
+      setErrorMessage(t("checkOut.messCorrect"));
+    }
+  };
+
+  const getInfoUser = async (e) => {
+    try {
+      if (name && email && number && date && gender.label && address) {
+        e.preventDefault();
+        await handleUpdateInfor(
+          name,
+          email,
+          number,
+          date,
+          gender.label,
+          address
+        );
+        setSucessMessage(t("checkOut.messCorrect"));
+      } else {
+        setErrorMessage(t("checkOut.messError"));
+      }
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      setErrorMessage(t("checkOut.messError"));
+    }
+  };
+
+  const handleUpdateInfo = async (e) => {
+    console.log(111111111);
+    try {
+      e.preventDefault();
+      if (name && email && number && date && gender.label && address) {
+        const res = await handleUpdateInfor(
+          name,
+          user.email,
+          number,
+          date,
+          gender.label,
+          address
+        );
+
+        setSucessMessage(t("checkOut.messCorrect"));
+      } else {
+        setErrorMessage(t("checkOut.messError"));
+      }
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      setErrorMessage(t("checkOut.messError"));
     }
   };
   useEffect(() => {
@@ -340,22 +393,25 @@ const Checkout = () => {
       <div className={classes.container}>
         {/* <div className={classes.profile}> */}
         <div className={classes.profiledevide}>
-          <div>avatar</div>
           <div>
-            <span>{t("checkOut.ten")}</span>
-            <span>nguyen huu nghia</span>
+            <span className={classes.textInfor}>{t("checkOut.ten")}</span>
+            <span>{user?.fullname}</span>
           </div>
           <div>
-            <span>{t("checkOut.gioitinh")}</span>
-            <span>Nam</span>
+            <span className={classes.textInfor}>{t("checkOut.gioitinh")}</span>
+            <span>{user?.gender}</span>
           </div>
           <div>
-            <span>{t("checkOut.birthday")}</span>
-            <span>18/06/2001</span>
+            <span className={classes.textInfor}>{t("checkOut.address")}</span>
+            <span>{user?.address}</span>
           </div>
           <div>
-            <span>{t("checkOut.number")}</span>
-            <span>0969909042</span>
+            <span className={classes.textInfor}>{t("checkOut.birthday")}</span>
+            <span>{moment(user?.dob).format("YYYY-MM-DD")}</span>
+          </div>
+          <div>
+            <span className={classes.textInfor}>{t("checkOut.number")}</span>
+            <span>{`0${user?.number}`}</span>
           </div>
         </div>
         <div className={classes.profile}>
@@ -390,22 +446,6 @@ const Checkout = () => {
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     placeholder={t("auth.Update.workNamePlaceholder")}
-                  />
-                </div>
-
-                <div className={classes.passwordOrMailField}>
-                  <span className={classes.wordEmailTitle}>
-                    {t("auth.Update.Email")}
-                  </span>
-                  <Input
-                    onFocus={() => setErrorMessage(null)}
-                    required
-                    disabled={isLoading}
-                    className={classes.input}
-                    disableUnderline
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder={t("auth.Update.workEmailPlaceholder")}
                   />
                 </div>
                 <div className={classes.wordNameField}>
@@ -446,13 +486,13 @@ const Checkout = () => {
                     {t("auth.signUp.date")}
                   </span>
                   <div className={classes.date}>
-                  <DatePicker
-                    value={date}
-                    onChange={(date) => setDate(date)}
-                    selectProps={{
-                      inputId: "default-date-picker-example",
-                    }}
-                  />
+                    <DatePicker
+                      value={date}
+                      onChange={(date) => setDate(date)}
+                      selectProps={{
+                        inputId: "default-date-picker-example",
+                      }}
+                    />
                   </div>
                 </div>
                 <div className={classes.passwordOrMailField}>
@@ -492,7 +532,7 @@ const Checkout = () => {
                 </div>
               )}
               {sucessMessage && (
-                <div className={classes.errorMessageContainer}>
+                <div className={classes.sucessMessageContainer}>
                   {/* <WarningIcon /> */}
                   <span className={classes.errorMessage}>{sucessMessage}</span>
                 </div>
@@ -581,6 +621,12 @@ const Checkout = () => {
                 <div className={classes.errorMessageContainer}>
                   {/* <WarningIcon /> */}
                   <span className={classes.errorMessage}>{errorMessage}</span>
+                </div>
+              )}
+              {sucessMessage && (
+                <div className={classes.sucessMessageContainer}>
+                  {/* <WarningIcon /> */}
+                  <span className={classes.errorMessage}>{sucessMessage}</span>
                 </div>
               )}
             </form>

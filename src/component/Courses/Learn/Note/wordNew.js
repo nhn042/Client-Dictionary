@@ -11,6 +11,7 @@ import Textfield from "@atlaskit/textfield";
 import ListIcon from "@atlaskit/icon/glyph/list";
 import ChevronUpCircleIcon from "@atlaskit/icon/glyph/chevron-up-circle";
 import ChevronDownCircleIcon from "@atlaskit/icon/glyph/chevron-down-circle";
+import Pagination from "@atlaskit/pagination";
 import { Collapse, IconButton, Tooltip } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DynamicTable from "@atlaskit/dynamic-table";
@@ -19,9 +20,15 @@ import { Field } from "@atlaskit/form";
 import Select from "@atlaskit/select";
 import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "../../constant";
 import {
+  handleDeleteWord,
   handleGetAllWord,
   handleUpdateWord,
 } from "../../../../services/userService";
+import {
+  DEFAULT_ROW_PER_PAGE,
+  DEFAULT_ROW_PER_PAGE_OPTIONS,
+  emptyTable,
+} from "../../utils/constant";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -92,6 +99,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "15px",
     display: "flex",
   },
+  pagination: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "flex-end",
+  },
   sucessMessageContainer: {
     color: "#1fd91f",
     fontSize: "16px",
@@ -140,9 +152,9 @@ const WordNew = () => {
   const classes = useStyles();
   const [checkIsLoading, setIsLoading] = useState(false);
   const [expanded, setExpanded] = React.useState(false);
-  const [isAddWord, setIsAddWord] = React.useState(false);
   const [tableRows, setTableRows] = useState([]);
   const [dataWord, setDataWord] = useState([]);
+  const [dataMain, setDataMain] = useState([]);
   const [wordViet, setWordViet] = useState();
   const [wordTay, setWordTay] = useState();
   const [description, setDescription] = useState();
@@ -150,6 +162,9 @@ const WordNew = () => {
   const [currentPage, setCurrentPage] = React.useState(1);
   const [sucessMessage, setSucessMessage] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [rowsPerPage, setRowsPerPage] = React.useState(
+    DEFAULT_ROW_PER_PAGE_OPTIONS()
+  );
   const { t } = useTranslation();
   const handleExpand = () => {
     setExpanded(!expanded);
@@ -158,6 +173,16 @@ const WordNew = () => {
   const handleGetWord = async () => {
     let wordData = await handleGetAllWord();
     setDataWord(wordData.data);
+    setDataMain(wordData.data);
+  };
+
+  const handleFilter = async (value) => {
+    if (value === "") {
+      setDataWord(dataMain);
+    } else {
+      const newData = dataMain.filter((item) => item.dokho === value);
+      setDataWord(newData);
+    }
   };
 
   const handleAddWord = async () => {
@@ -167,12 +192,23 @@ const WordNew = () => {
       dokho: wordType.label,
       dacdiem: description,
     });
-    console.log('res', res);
-    if(res.status === 200) {
-    // await handleGetWord();
-    setSucessMessage(t("word.messSucess"));
+    if (res.status === 200) {
+      await handleGetWord();
+      setSucessMessage(t("word.messSucess"));
     } else {
       setErrorMessage(t("word.messFaild"));
+    }
+  };
+
+  const deleteWord = async () => {
+    const res = await handleDeleteWord({
+      viet: wordViet,
+    });
+    if (res.status === 200) {
+      await handleGetWord();
+      setSucessMessage(t("word.messDeleteSucess"));
+    } else {
+      setErrorMessage(t("word.messDeleteFaild"));
     }
   };
 
@@ -242,6 +278,14 @@ const WordNew = () => {
     });
     setTableRows(rows);
   };
+  const totalPages = useMemo(
+    () =>
+      Math.ceil(
+        dataWord?.length / (rowsPerPage?.value || DEFAULT_ROW_PER_PAGE)
+      ) || 1,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [JSON.stringify(dataWord), rowsPerPage]
+  );
   useEffect(() => {
     getRows();
     handleGetWord();
@@ -315,18 +359,25 @@ const WordNew = () => {
             <span>{sucessMessage}</span>
           </div>
         )}
-                {errorMessage && (
+        {errorMessage && (
           <div className={classes.errorMessageContainer}>
             <span>{errorMessage}</span>
           </div>
         )}
-        <div>
+        <div style={{display: 'flex', gap: '15px'}}>
           <LoadingButton
             appearance="primary"
             isLoading={checkIsLoading}
             onClick={handleAddWord}
           >
             {t("word.sub")}
+          </LoadingButton>
+          <LoadingButton
+            appearance="primary"
+            isLoading={checkIsLoading}
+            onClick={deleteWord}
+          >
+            {t("word.delete")}
           </LoadingButton>
         </div>
       </div>
@@ -338,9 +389,38 @@ const WordNew = () => {
               <span style={{ marginTop: "5px" }}>
                 <ListIcon primaryColor="#3F8425" />
               </span>
-              <span className={classes.hover}>{t("word.de")}</span>
-              <span className={classes.hover}>{t("word.binhthuong")}</span>
-              <span className={classes.hover}>{t("word.kho")}</span>
+              <span
+                className={classes.hover}
+                onClick={() => {
+                  handleFilter("Dễ");
+                }}
+              >
+                {t("word.de")}
+              </span>
+              <span
+                className={classes.hover}
+                onClick={() => {
+                  handleFilter("Thường");
+                }}
+              >
+                {t("word.binhthuong")}
+              </span>
+              <span
+                className={classes.hover}
+                onClick={() => {
+                  handleFilter("Khó");
+                }}
+              >
+                {t("word.kho")}
+              </span>
+              <span
+                className={classes.hover}
+                onClick={() => {
+                  handleFilter("");
+                }}
+              >
+                {t("word.All")}
+              </span>
             </div>
           </div>
           <div className={classes.iconGroup}>
@@ -360,14 +440,29 @@ const WordNew = () => {
             <DynamicTable
               head={head}
               rows={tableRows}
-              rowsPerPage={dataWord.length}
+              rowsPerPage={rowsPerPage?.value}
               defaultPage={1}
-              // emptyView={emptyTable()}
+              emptyView={emptyTable()}
               page={currentPage}
               // isLoading={isFetchingData}
               loadingSpinnerSize="large"
             />
           </TableResponsive>
+          {dataWord.length !== 0 && (
+            <div className={classes.pagination}>
+              <Pagination
+                defaultSelectedIndex={currentPage - 1}
+                selectedIndex={currentPage - 1}
+                pages={Array.from(
+                  {
+                    length: totalPages,
+                  },
+                  (_v, i) => i + 1
+                )}
+                onChange={(data, page) => setCurrentPage(page)}
+              />
+            </div>
+          )}
         </Collapse>
       </div>
     </div>

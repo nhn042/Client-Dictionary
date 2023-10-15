@@ -14,16 +14,6 @@ import anh9 from "../../../../images/anh9.png";
 import anh10 from "../../../../images/anh10.png";
 import Textfield from "@atlaskit/textfield";
 import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
-import openVideo from "./openVideo";
-import Button from "@atlaskit/button";
-import Form from "@atlaskit/form";
-import Modal, {
-  ModalBody,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-  ModalTransition,
-} from "@atlaskit/modal-dialog";
 import Example from "./modal";
 
 const useStyles = makeStyles((theme) => ({

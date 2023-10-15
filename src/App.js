@@ -18,10 +18,19 @@ import HomeLearn from "./component/Courses";
 import ContentWord from "./component/Courses/content";
 import CoursesVideo from "./component/Courses/video";
 import ContentDictionary from "./component/Courses/Dictionary";
+import Introduce from "./component/Introduce";
 function App() {
   return (
     <Router>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <WrapperComponent>
+              <Login />
+            </WrapperComponent>
+          }
+        />
         <Route
           path="/login"
           element={
@@ -71,6 +80,14 @@ function App() {
           }
         />
         <Route
+          path="/introduce"
+          element={
+            <HomeMain>
+              <Introduce />
+            </HomeMain>
+          }
+        />
+        <Route
           path="/search"
           element={
             <HomeMain>
@@ -110,14 +127,14 @@ function App() {
             // </HomeMain>
           }
         />
-        <Route
+        {/* <Route
           path="/game"
           element={
             <HomeMain>
               <Game />
             </HomeMain>
           }
-        />
+        /> */}
         <Route
           path="/courses/note"
           element={
@@ -150,22 +167,14 @@ function App() {
             </HomeMain>
           }
         />
-        {/* <Route
-          path="/content"
+        <Route
+          path="/introduce/culture"
           element={
             <HomeMain>
-              <Theory />
+              <Courses />
             </HomeMain>
           }
         />
-        <Route
-          path="/video"
-          element={
-            <HomeMain>
-              <Video />
-            </HomeMain>
-          }
-        /> */}
       </Routes>
     </Router>
   );

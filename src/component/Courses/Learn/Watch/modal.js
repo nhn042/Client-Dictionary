@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import movie from "./videoMp4/movie.mp4";
 import Button from "@atlaskit/button/standard-button";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";

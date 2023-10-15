@@ -9,12 +9,15 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import { handleUserLoginApi } from "../../services/userService";
+import { getDetailsUser, handleUserLoginApi } from "../../services/userService";
 // import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import React, { useContext, useEffect, useState } from "react";
+import jwt_decode from "jwt-decode";
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../images/logoLogin.png";
+import { updateUser } from "../../redux/slides/UserSlide";
 // import screenDefaultApis from '../../services/screenDefaultApis'
 // import { AuthContext } from './AuthProvider'
 
@@ -206,11 +209,14 @@ const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [userId, setUserId] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [userAttr, setUserAttr] = useState(null);
   const [mesError, setMesError] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [buttonTitle, setButtonTitle] = useState("auth.login.loginTitle");
+  const location = useLocation()
+  const dispatch = useDispatch();
 
   const regex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -261,11 +267,20 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("111");
     try {
       const user = await handleUserLoginApi(email, password);
+      setUserId(user.token)
       console.log("user", user);
       navigate("/home", { replace: true });
+      localStorage.setItem('access_token', JSON.stringify(user.token))
+      // localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
+      if (user.token) {
+        const decoded = jwt_decode(user.token)
+        console.log('decoded', decoded);
+        if (decoded?.id) {
+          handleGetDetailsUser(decoded?.id, user.token)
+        }
+      }
     } catch (err) {
       console.log(err.code);
       setIsLoading(false)
@@ -276,6 +291,33 @@ const Login = () => {
       }
     }
   };
+  // console.log('userId', userId);
+  // useEffect(() => {
+  //     if(location?.state) {
+  //       navigate(location?.state)
+  //     }else {
+  //       navigate('/')
+  //     }
+  //     localStorage.setItem('access_token', JSON.stringify(userId))
+  //     // localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
+  //     if (userId) {
+  //       const decoded = jwt_decode(userId)
+  //       console.log('decoded', decoded);
+  //       if (decoded?.id) {
+  //         handleGetDetailsUser(decoded?.id, userId)
+  //       }
+  //     }
+  // }, [userId])
+
+  const handleGetDetailsUser = async (id, token) => {
+    const storage = localStorage.getItem('refresh_token')
+    const refreshToken = JSON.parse(storage)
+    console.log(123456);
+    const res = await getDetailsUser(id, token)
+    console.log('res', res?.data);
+    dispatch(updateUser({ ...res?.data, access_token: token,refreshToken }))
+  }
+
   // const handleLogin = () => {
   // setIsLoading(true)
   // authenticate(email, password)

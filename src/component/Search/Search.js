@@ -2,8 +2,6 @@
 import "./Search.css";
 import "../Definitions/Definitions.js";
 import React, { useEffect, useState } from "react";
-import Select, { components } from "@atlaskit/select";
-import categories from "../../data/category";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import Changes24Icon from "@atlaskit/icon-object/glyph/changes/24";
@@ -14,6 +12,42 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100%",
     display: "flex",
     flexDirection: "row",
+  },
+  searchItem: {
+    minWidth: 230,
+    fontSize: "14px",
+    border: "1px solid #a2b1b1",
+    "& div": {
+      overflow: "visible !important",
+    },
+    "@media screen and (max-width: 1024px)": {
+      flex: 1,
+    },
+    '& input[name="keyword"]': {
+      height: 36,
+    },
+  },
+  changeSelect: {
+    marginTop: "32px",
+    "&:hover": {
+      cursor: "pointer",
+      textDecoration: "underline",
+    },
+  },
+  select: {
+    fontWeight: "700",
+    fontSize: "20px",
+    margin: "12px 4px",
+    display: "flex",
+    alignItems: "center",
+  },
+  errorMessageContainer: {
+    color: 'red',
+    fontSize: '16px',
+    width: '100%',
+    marginBottom: '10px',
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
@@ -27,39 +61,32 @@ const Search = () => {
   const [meanings, setMeanings] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
   const [response, setResponse] = useState(false);
-  const [error, setError] = useState("");
   const reset = () => {
     setMeanings([]);
     setWord("");
     setResponse(false);
   };
   const changeSearch = () => {
-    leftSelect === "Viet" ? setLeftSelect("Tay") : setLeftSelect("Viet");
-    rightSelect === "Viet" ? setRightSelect("Tay") : setRightSelect("Viet");
+    if (leftSelect === "Viet") {
+      setLeftSelect("Tay");
+      setRightSelect("Viet");
+      setCategory("tay");
+    } else {
+      setLeftSelect("Viet");
+      setRightSelect("Tay");
+      setCategory("viet");
+    }
   };
-  const [accessLevel, setAccessLevelFilter] = React.useState({
-    label: "Viet",
-    value: "",
-  });
-  const ACCESS_LEVEL_OPTIONS = () => [
-    {
-      label: "Viet",
-      value: "",
-    },
-    {
-      label: "Tay",
-      value: true,
-    },
-  ];
   const handleSubmit = async (e) => {
     try {
+      console.log('category', category, word);
       const res = await handleFindWord(category, word);
       console.log("res", res);
       setMeanings(res.data);
       setResponse(true);
     } catch (error) {
       setMeanings([]);
-      setErrorMessage(t("checkOut.messerror"));
+      setErrorMessage(t("search.messerror"));
       console.log(error);
     }
   };
@@ -75,21 +102,12 @@ const Search = () => {
     }, 3000);
     return () => clearTimeout(timer);
   }, [errorMessage]);
-
   return (
     <div className="borderMain">
       <div className="panel">
         <div className="right-panel">
-          <div>
-            <Select
-              blurInputOnSelect
-              value={accessLevel}
-              onChange={(opt) => {
-                setAccessLevelFilter(opt);
-                setCategory(opt.label.toLowerCase());
-              }}
-              options={ACCESS_LEVEL_OPTIONS()}
-            />
+          <div className={classes.searchItem}>
+            <span className={classes.select}>{leftSelect}</span>
           </div>
           <div className="search-box">
             <textarea
@@ -99,28 +117,12 @@ const Search = () => {
             ></textarea>
           </div>
         </div>
-        <div style={{ marginTop: "22px" }} onClick={changeSearch}>
+        <div className={classes.changeSelect} onClick={changeSearch}>
           <Changes24Icon size="large" label="" />
         </div>
         <div className="left-panel">
-          <div>
-            {/* <select
-              value={rightSelect}
-              onChange={(e) => setRightSelect(e.target.value)}
-            >
-              {categories.map((option, index) => (
-                <option key={index}>{option.value}</option>
-              ))}
-            </select> */}
-            <Select
-              blurInputOnSelect
-              value={accessLevel}
-              onChange={(opt) => {
-                setAccessLevelFilter(opt);
-                setCategory(opt.label.toLowerCase());
-              }}
-              options={ACCESS_LEVEL_OPTIONS()}
-            />
+          <div className={classes.searchItem}>
+            <span className={classes.select}>{rightSelect}</span>
           </div>
           {category === "viet" &&
             (meanings?.listSequenceText ? (

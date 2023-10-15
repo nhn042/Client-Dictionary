@@ -82,6 +82,7 @@
     },
     "appBar": {
       "Home": "Trang Chủ",
+      "Introduce": "Giới Thiệu",
       "Search": "Tìm Kiếm",
       "Courses": "Khóa Học",
       "signOut": "Đăng Xuất",
@@ -121,13 +122,16 @@
     "PhatAm": "Phát Âm",
     "TuVung": "Từ Vựng",
     "Search": "Tìm Kiếm",
-    "sub": "Gửi",
+    "sub": "Thêm từ",
+    "delete": "Xóa từ",
     "timkiem": "Tìm Kiếm",
     "nguam": "Ngữ Âm",
     "Tu": "Từ",
     "cau": "Câu",
     "messSucess": "Thêm từ vào nhật ký thành công",
-    "messFaild": "Thêm từ thất bại, vui lòng thử lại",
+    "messDeleteSucess": "Xóa từ khỏi nhật ký thành công",
+    "messFaild": "Thêm từ thất bại do từ này đã tồn tại, vui lòng thử lại",
+    "messDeleteFaild": "Từ cần xóa không tồn tại, vui lòng thử lại",
     "loaitu": "Loại Từ",
     "morongphancau": "Mở rộng các phần của câu",
     "morongcau2": "Mở rộng câu",
@@ -138,13 +142,21 @@
     "notetay": "Nhập tiếng tày",
     "noteMT": "Nhập miêu tả"
   },
+  "introduce": {
+    "fulture": "Văn Hóa"
+  },
   "checkOut": {
     "ten": "Họ và tên: ",
     "gioitinh": "Giới tính: ",
+    "address": "Địa Điểm: ",
     "birthday": "Ngày sinh: ",
     "number": "Số điện thoại: ",
-    "messerror": "Cập nhật thất bại vui lòng nhập lại",
-    "messcorect": "Cập nhật thông tin thành công"
+    "messError": "Cập nhật thất bại vui lòng nhập lại",
+    "messCorrect": "Cập nhật thông tin thành công",
+    "messFaildChange": "Xác nhận password không đúng vui lòng nhập lại"
+  },
+  "search": {
+    "messerror": "Không tồn tại từ cần tim vui lòng nhập lại"
   },
   "common": {
     "dong": "Đóng",

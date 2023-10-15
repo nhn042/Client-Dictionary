@@ -1,11 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import ScreenIcon from "@atlaskit/icon/glyph/screen";
+import PeopleGroupIcon from '@atlaskit/icon/glyph/people-group'
 import QueuesIcon from "@atlaskit/icon/glyph/queues";
-import SuitcaseIcon from "@atlaskit/icon/glyph/suitcase";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import EditFilledIcon from "@atlaskit/icon/glyph/edit-filled";
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,14 +47,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeLearn = () => {
+const Introduce = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleClickBook = (event) => {
     event.preventDefault();
-    navigate("/courses/note", { replace: true });
+    navigate("/introduce/culture", { replace: true });
   };
   const handleClickWord = (event) => {
     event.preventDefault();
@@ -79,10 +78,10 @@ const HomeLearn = () => {
           style={{ marginLeft: "20px" }}
         >
           <span className={classes.textLeft}>
-            <QueuesIcon size="large" label="" /> {t("word.Note")}
+            <PeopleGroupIcon size="large" label="" /> {t("introduce.fulture")}
           </span>
         </div>
-        <div onClick={handleClickWord} className={classes.box}>
+        {/* <div onClick={handleClickWord} className={classes.box}>
           <span className={classes.textLeft}>
             <SuitcaseIcon size="large" label="" /> {t("word.Dictionary")}
           </span>{" "}
@@ -102,10 +101,10 @@ const HomeLearn = () => {
             <ScreenIcon size="large" label="" />
             {t("word.video")}
           </span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-export default HomeLearn;
+export default Introduce;
