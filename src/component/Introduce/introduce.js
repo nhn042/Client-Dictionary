@@ -1,12 +1,9 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import ScreenIcon from "@atlaskit/icon/glyph/screen";
-import QueuesIcon from "@atlaskit/icon/glyph/queues";
-import SuitcaseIcon from '@atlaskit/icon/glyph/suitcase'
 import { makeStyles } from "@material-ui/core/styles";
-import EditFilledIcon from "@atlaskit/icon/glyph/edit-filled";
-import WordNew from "./Learn/Note/wordNew";
+import PeopleGroupIcon from '@atlaskit/icon/glyph/people-group'
 import { useNavigate } from "react-router-dom";
+import WordNew1 from "./learnCulture";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,28 +41,28 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-const Courses = () => {
+const Character = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const { t } = useTranslation();
 
   const handleClickBook = () => {
-    navigate("/courses/note", { replace: true });
+    navigate("/introduce/culture", { replace: true });
   };
   const handleClickWord = () => {
-    navigate("/courses/dictionary", { replace: true });
+    navigate("/introduce/dictionary", { replace: true });
   };
   const handleClickContent = () => {
-    navigate("/courses/content", { replace: true });
+    navigate("/introduce/content", { replace: true });
   };
   const handleClickVideo = () => {
-    navigate("/courses/video", { replace: true });
+    navigate("/introduce/video", { replace: true });
   };
   return (
     <div className={classes.container}>
       <div className={classes.leftBox}>
         <span onClick={handleClickBook} className={classes.textLeft}>
-          <QueuesIcon size="large" label="" /> {t("word.Note")}
+          <PeopleGroupIcon size="large" label="" /> {t("introduce.fulture")}
         </span>
         {/* <span onClick={handleClickWord} className={classes.textLeft}>
           <SuitcaseIcon size="large" label="" /> {t("word.Dictionary")}
@@ -80,10 +77,10 @@ const Courses = () => {
         </span> */}
       </div>
       <div className={classes.rightBox}>
-        <WordNew />
+        <WordNew1 />
       </div>
     </div>
   );
 };
 
-export default Courses;
+export default Character;

@@ -75,20 +75,21 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: 0,
     height: 0,
-    borderTop: "16px solid transparent",
-    borderRight: "16px solid #D4DEE2",
-    borderBottom: "16px solid transparent",
+    borderTop: '5px solid #D4DEE2',
+    borderRight: '2px solid #D4DEE2',
+    borderLeft: '2px solid #D4DEE2',
+    borderBottom: '30px solid #D4DEE2',
   },
-  in: {
-    position: "absolute",
-    top: "-13px",
-    right: "-16px",
-    width: 0,
-    height: 0,
-    borderTop: "13px solid transparent",
-    borderRight: "13px solid white",
-    borderBottom: "13px solid transparent",
-  },
+  // in: {
+  //   position: "absolute",
+  //   top: "-13px",
+  //   right: "-16px",
+  //   width: 0,
+  //   height: 0,
+  //   borderTop: "13px solid transparent",
+  //   borderRight: "13px solid white",
+  //   borderBottom: "13px solid transparent",
+  // },
   icon: {
     primaryColor: "#303952",
   },
@@ -177,12 +178,12 @@ const MenuAppBar = () => {
           <span className={classes.out}>
             <span className={classes.in} />
           </span>
-          <Typography variant="h6" className={classes.title}>
+          {/* <Typography variant="h6" className={classes.title}>
             <span onClick={handleIntro}>{t("auth.appBar.Introduce")}</span>
           </Typography>
           <span className={classes.out}>
             <span className={classes.in} />
-          </span>
+          </span> */}
           <Typography variant="h6" className={classes.title}>
             <span onClick={handleSearch}>{t("auth.appBar.Search")}</span>
           </Typography>

@@ -7,6 +7,7 @@ import SuitcaseIcon from '@atlaskit/icon/glyph/suitcase'
 import EditFilledIcon from "@atlaskit/icon/glyph/edit-filled";
 import Theory from "./Learn/NoiDunghoc/theory";
 import { useNavigate } from "react-router-dom";
+import anh from "../../images/noidung.jpg";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -42,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
       cursor: "pointer",
       color: "#0d87f0",
     },
+  },
+  group: {
+    width: "100%",
+    height: "400px",
+    objectFit: "fill",
   },
 }));
 const ContentWord = () => {
@@ -81,6 +87,10 @@ const ContentWord = () => {
       </div>
       <div className={classes.rightBox}>
         <Theory />
+        <div style={{marginTop: '80px'}}>
+        
+        <img className={classes.group} src={anh} alt="Mô tả hình ảnh"/>
+        </div>
       </div>
     </div>
   );

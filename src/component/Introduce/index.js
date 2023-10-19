@@ -1,7 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import PeopleGroupIcon from '@atlaskit/icon/glyph/people-group'
-import QueuesIcon from "@atlaskit/icon/glyph/queues";
 import { useNavigate } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -52,7 +51,7 @@ const Introduce = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
 
-  const handleClickBook = (event) => {
+  const handleClickculture = (event) => {
     event.preventDefault();
     navigate("/introduce/culture", { replace: true });
   };
@@ -73,7 +72,7 @@ const Introduce = () => {
     <div className={classes.container}>
       <div className={classes.boxInside}>
         <div
-          onClick={handleClickBook}
+          onClick={handleClickculture}
           className={classes.box}
           style={{ marginLeft: "20px" }}
         >

@@ -19,6 +19,7 @@ import ContentWord from "./component/Courses/content";
 import CoursesVideo from "./component/Courses/video";
 import ContentDictionary from "./component/Courses/Dictionary";
 import Introduce from "./component/Introduce";
+import Character from "./component/Introduce/introduce";
 function App() {
   return (
     <Router>
@@ -171,7 +172,7 @@ function App() {
           path="/introduce/culture"
           element={
             <HomeMain>
-              <Courses />
+              <Character />
             </HomeMain>
           }
         />

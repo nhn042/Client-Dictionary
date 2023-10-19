@@ -83,10 +83,10 @@
     "appBar": {
       "Home": "Trang Chủ",
       "Introduce": "Giới Thiệu",
-      "Search": "Tìm Kiếm",
+      "Search": "Tra Cứu",
       "Courses": "Khóa Học",
       "signOut": "Đăng Xuất",
-      "Zoom": "Join",
+      "Zoom": "Học Nhóm",
       "Game": "Game"
     },
     "home": {
