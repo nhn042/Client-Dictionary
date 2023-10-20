@@ -82,6 +82,8 @@
     },
     "appBar": {
       "Home": "Trang Chủ",
+      "Login": "Đăng Nhập",
+      "signUp": "Đăng Ký",
       "Introduce": "Giới Thiệu",
       "Search": "Tra Cứu",
       "Courses": "Khóa Học",

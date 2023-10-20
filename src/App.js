@@ -20,6 +20,7 @@ import CoursesVideo from "./component/Courses/video";
 import ContentDictionary from "./component/Courses/Dictionary";
 import Introduce from "./component/Introduce";
 import Character from "./component/Introduce/introduce";
+import SearchHome from "./component/Home/SearchHome";
 function App() {
   return (
     <Router>
@@ -56,6 +57,7 @@ function App() {
             </WrapperComponent>
           }
         />
+        <Route path="/home/search" element={<SearchHome />} />
         <Route
           path="/signUp"
           element={
