@@ -13,7 +13,7 @@ import { getDetailsUser, handleUserLoginApi } from "../../services/userService";
 // import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import React, { useContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../images/logoLogin.png";
@@ -37,7 +37,11 @@ const useStyles = makeStyles(() => ({
   logo: {
     width: "192px",
   },
-
+  search: {
+    position: "absolute",
+    top: '0px',
+    right: '15px',
+  },
   loginTitle: {
     fontWeight: "600",
     fontSize: "24px",
@@ -197,12 +201,6 @@ const useStyles = makeStyles(() => ({
 const Login = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  //   const {
-  //     authenticate,
-  //     completeNewPasswordChallenge,
-  //     showSuccessfulChangePasswordNoti,
-  //     setShowSuccessfulChangePasswordNoti,
-  //   } = useContext(AuthContext)
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -210,12 +208,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [userId, setUserId] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [userAttr, setUserAttr] = useState(null);
-  const [mesError, setMesError] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [buttonTitle, setButtonTitle] = useState("auth.login.loginTitle");
-  const location = useLocation()
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const regex =
@@ -238,145 +231,45 @@ const Login = () => {
     navigate("/signUp", { replace: true });
   };
 
-  const handleAfterLogin = (data) => {
-    // localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken.jwtToken)
-    // localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken.token)
-    // const urlParams = new URLSearchParams(window.location.search)
-    // if (urlParams.get('state')) {
-    //   window.location.href = urlParams.get('state')
-    //   console.log(window.location.href)
-    // } else {
-    //   screenDefaultApis
-    //     .getDefaultScreen()
-    //     .then(async (response) => {
-    //       const path =
-    //         response?.data?.raw?.path_default_screen ||
-    //         response?.data?.raw?.pathDefaultScreen
-    //       if (path) {
-    //         window.location.href = `${window.origin}${path}`
-    //       } else {
-    //         window.location.href = `${window.origin}`
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       window.location.href = `${window.origin}`
-    //     })
-    // }
-  };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const user = await handleUserLoginApi(email, password);
-      setUserId(user.token)
+      setUserId(user.token);
       console.log("user", user);
       navigate("/home", { replace: true });
-      localStorage.setItem('access_token', JSON.stringify(user.token))
+      localStorage.setItem("access_token", JSON.stringify(user.token));
       // localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
       if (user.token) {
-        const decoded = jwt_decode(user.token)
-        console.log('decoded', decoded);
+        const decoded = jwt_decode(user.token);
+        console.log("decoded", decoded);
         if (decoded?.id) {
-          handleGetDetailsUser(decoded?.id, user.token)
+          handleGetDetailsUser(decoded?.id, user.token);
         }
       }
     } catch (err) {
       console.log(err.code);
-      setIsLoading(false)
-      if (err.code === 'NotAuthorizedException' || !regex.test(email)) {
-        setErrorMessage(t('auth.login.incorrectAccountError'))
+      setIsLoading(false);
+      if (err.code === "NotAuthorizedException" || !regex.test(email)) {
+        setErrorMessage(t("auth.login.incorrectAccountError"));
       } else {
-        setErrorMessage(t('auth.login.serverError'))
+        setErrorMessage(t("auth.login.serverError"));
       }
     }
   };
-  // console.log('userId', userId);
-  // useEffect(() => {
-  //     if(location?.state) {
-  //       navigate(location?.state)
-  //     }else {
-  //       navigate('/')
-  //     }
-  //     localStorage.setItem('access_token', JSON.stringify(userId))
-  //     // localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
-  //     if (userId) {
-  //       const decoded = jwt_decode(userId)
-  //       console.log('decoded', decoded);
-  //       if (decoded?.id) {
-  //         handleGetDetailsUser(decoded?.id, userId)
-  //       }
-  //     }
-  // }, [userId])
 
   const handleGetDetailsUser = async (id, token) => {
-    const storage = localStorage.getItem('refresh_token')
-    const refreshToken = JSON.parse(storage)
+    const storage = localStorage.getItem("refresh_token");
+    const refreshToken = JSON.parse(storage);
     console.log(123456);
-    const res = await getDetailsUser(id, token)
-    console.log('res', res?.data);
-    dispatch(updateUser({ ...res?.data, access_token: token,refreshToken }))
-  }
-
-  // const handleLogin = () => {
-  // setIsLoading(true)
-  // authenticate(email, password)
-  //   .then((result) => {
-  //     console.log('Logged in!')
-  //     if (result.newPasswordRequired) {
-  //       delete result.data.email_verified
-  //       delete result.data.email
-  //       setUserAttr(result.data)
-  //       setLoggedInUser(result.user)
-  //       setScreenMode(ScreenMode.FIRST_LOGIN)
-  //       setIsLoading(false)
-  //     } else {
-  //       handleAfterLogin(result.data)
-  //     }
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //     console.log(err.code)
-  //     console.error('Failed to login!')
-  //     setIsLoading(false)
-  //     if (err.code === 'NotAuthorizedException' || !regex.test(email)) {
-  //       setErrorMessage(t('auth.login.incorrectAccountError'))
-  //     } else {
-  //       setErrorMessage(t('auth.login.serverError'))
-  //     }
-  //   })
-  // };
-
-  const handleChangePassword = () => {
-    // setIsLoading(true)
-    // completeNewPasswordChallenge(loggedInUser, newPassword, userAttr)
-    //   .then((data) => {
-    //     console.log('New password completed!')
-    //     handleAfterLogin(data)
-    //   })
-    //   .catch((err) => {
-    //     console.log('Fail to change password!')
-    //     console.log(err)
-    //     setIsLoading(false)
-    //     if (err.code === 'InvalidPasswordException') {
-    //       setErrorMessage(t('auth.login.passwordFormatError'))
-    //     }
-    //   })
+    const res = await getDetailsUser(id, token);
+    console.log("res", res?.data);
+    dispatch(updateUser({ ...res?.data, access_token: token, refreshToken }));
   };
 
-  const closeMessage = () => {
-    // setShowSuccessfulChangePasswordNoti(false)
-  };
   const onSubmit = (event) => {
     handleLogin();
   };
-
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowSuccessfulChangePasswordNoti(false)
-  //   }, 4000)
-  //   return () => clearTimeout(timer)
-  // }, [])
 
   return (
     <>
@@ -443,7 +336,6 @@ const Login = () => {
           disabled={isLoading}
           style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
         >
-          {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
           {t("auth.login.loginTitle")}
         </button>
         <div onClick={handleSignUp} className={classes.messSignUp}>
@@ -458,33 +350,6 @@ const Login = () => {
           </span>
           <span className={classes.signUp}>{t("auth.login.signUp")} </span>
         </div>
-        {/* {showSuccessfulChangePasswordNoti && (
-          <div className={classes.messageCheckPass}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <CheckboxIcon
-                size="large"
-                primaryColor="#FFFFFF"
-                secondaryColor="#008000"
-              />
-              <span style={{ marginLeft: '5px' }}>
-                {t('auth.forgotPassword.changePassSuccess')}
-              </span>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={closeMessage}
-                style={{
-                  background: 'green',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                <EditorCloseIcon primaryColor="#FFFFFF" />
-              </button>
-            </div>
-          </div>
-        )} */}
       </form>
     </>
   );

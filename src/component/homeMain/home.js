@@ -9,6 +9,9 @@ import i18next from "i18next";
 import React, { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import home1 from "../../images/home1.jpg";
+import home2 from "../../images/home2.jpg";
+import home3 from "../../images/home3.webp";
 import "./home.css";
 
 const useStyles = makeStyles(() => ({
@@ -73,7 +76,7 @@ const homeScene = () => {
           <img
             className="d-block w-100"
             alt="ThirdSlide"
-            src="https://wallpapercave.com/wp/wp3642699.jpg"
+            src={home1}
             style={{ height: "600px" }}
           />
         </Carousel.Item>
@@ -81,7 +84,7 @@ const homeScene = () => {
           <img
             className="d-block w-100"
             alt="FirstSlide"
-            src="https://wallpapercave.com/wp/wp3642734.jpg"
+            src={home2}
             style={{ height: "600px" }}
           />
         </Carousel.Item>
@@ -89,7 +92,7 @@ const homeScene = () => {
           <img
             className="d-block w-100"
             alt="secondSlide"
-            src="https://wallpapercave.com/wp/wp3642720.jpg"
+            src={home3}
             style={{ height: "600px" }}
           />
         </Carousel.Item>
