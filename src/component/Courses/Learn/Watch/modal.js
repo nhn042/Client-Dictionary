@@ -25,11 +25,11 @@ const Example = (props) => {
   // eslint-disable-next-line no-undef
   const classes = useStyles();
   const { t } = useTranslation();
-  const { isOpentest, closeModal } = props;
+  const { link, isOpentest, closeModal } = props;
   const [isOpen, setIsOpen] = useState(false);
   const openModal = useCallback(() => setIsOpen(true), []);
   //   const closeModal = useCallback(() => setIsOpen(false), []);
-
+console.log('link', link);
   return (
     <ModalTransition>
       {isOpentest && (
@@ -46,7 +46,7 @@ const Example = (props) => {
               {/* <source src="movie.ogg" type="video/ogg"/> */}
               {/* Your browser does not support the video tag.
             </video> */}
-            <iframe className={classes.video} src="https://www.youtube.com/embed/Q72P9F1NM3s" title="Học tiếng Tày - Nùng Online. Bài 4: Số đếm" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <iframe className={classes.video} src={link} title="Học tiếng Tày - Nùng Online. Bài 4: Số đếm" allowfullscreen></iframe>
           </div>
         </Modal>
       )}

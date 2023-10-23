@@ -1,40 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
-import anh0 from "../../../../images/anh11.png";
-import anh1 from "../../../../images/anh1.png";
-import anh2 from "../../../../images/anh2.png";
-import anh3 from "../../../../images/anh3.png";
-import anh4 from "../../../../images/anh4.png";
-import anh5 from "../../../../images/anh5.png";
-import anh6 from "../../../../images/anh6.png";
-import anh7 from "../../../../images/anh7.png";
-import anh8 from "../../../../images/anh8.png";
-import anh9 from "../../../../images/anh9.png";
-import anh10 from "../../../../images/anh10.png";
+
+import { Comcentense, Communicate } from "./data";
 import Textfield from "@atlaskit/textfield";
 import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
 import Example from "./modal";
+import ListVideo from "./listVideo";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    margin: "50px 10px 20px 30px",
     display: "flex",
     flexWrap: "wrap",
     gap: "50px",
+    margin: "10px 30px 0px",
+    justifyContent: "flex-start",
     "& > div": {
       display: "flex",
       flexDirection: "column",
-      width: "285px",
+      width: "320px",
       "&:hover": {
         cursor: "pointer",
       },
     },
   },
   group: {
-    width: "285px",
     height: "250px",
     objectFit: "fill",
+  },
+  title: {
+    margin: "20px 30px",
+    fontSize: "22px",
+    fontWeight: "700",
   },
   buttonSearch: {
     width: "50px",
@@ -82,47 +79,23 @@ const useStyles = makeStyles((theme) => ({
 const Video = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [isOpenVideo1, setIsOpenVideo1] = useState(false);
+  const [commuticate, setCommuticate] = useState(Communicate);
+  const [comcentense, setComcentense] = useState(Comcentense);
   const [wordSearch, setWordSearch] = useState("");
-  const [nameVideo, setNameVideo] = useState([]);
-  let Data = [
-    "Học tiếng Tày - Nùng Online. Bài 4: Số đếm",
-    "HỌC TIẾNG TÀY BÀI 3",
-    "HỌC TIẾNG TÀY #1 - XƯNG HÔ TRONG GIA ĐÌNH VÀ ĐẾM SỐ",
-    "HỌC TIẾNG TÀY BÀI 2",
-    "HỌC TIẾNG TÀY BÀI 4 - Những Mẫu Câu Thông Dụng Mỗi Ngày",
-    "Học tiếng Tày - Nùng| Chủ đề 3: Từ vựng xưng hô trong quan hệ gia đình",
-    "Bài 1: Tiếng Tày - Nùng Không Khó Lắm | Tiểng Tày - Nùng Mí Slài Khỏ Học Tiếng Tày - Nùng",
-    "Học tiếng Tày - Nùng Online. Bài 1: Chào hỏi",
-    "Học tiếng Tày - Nùng online: Bài 2. Tên gì? Ở đâu?",
-    "Học tiếng Tày - Nùng Online. Bài 3: Đại từ nhân xưng",
-  ]
-  const handleVideo1 = (check) => {
-    console.log('check', check);
-    setIsOpenVideo1(true);
-  };
-  const closeModal = () => {
-    setIsOpenVideo1(false);
-  };
+  console.log("Communicate", Communicate);
   const handleSearch = (key, value) => {
-    let newData = Data;
-    newData = newData.filter((item) =>
-      item?.toLowerCase().includes(value.toLowerCase())
+    let dataCommuticate = Communicate;
+    let dataComcentense = Comcentense;
+    dataCommuticate = dataCommuticate.filter((item) =>
+      item?.name.toLowerCase().includes(value.toLowerCase())
     );
-    console.log("newData", newData);
-    setNameVideo(newData);
+    dataComcentense = dataComcentense.filter((item) =>
+      item?.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setCommuticate(dataCommuticate);
+    setComcentense(dataComcentense);
   };
 
-  const number = ["1", "2"];
-  const listVideo = [
-    { id: 1, name: "Học tiếng Tày - Nùng Online. Bài 4: Số đếm", anh: anh0 },
-    { id: 2, name: "HỌC TIẾNG TÀY BÀI 3", anh: anh1 },
-  ];
-  useEffect(() => {
-    setNameVideo(Data);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-  ])
   return (
     <>
       <div>
@@ -137,12 +110,12 @@ const Video = () => {
           <div style={{ display: "flex", flexDirection: "row" }}>
             <div className={classes.search}>
               <Textfield
-            elemBeforeInput={
-              <EditorSearchIcon
-                label="search icon"
-                primaryColor="rgb(94, 108, 132)"
-              />
-            }
+                elemBeforeInput={
+                  <EditorSearchIcon
+                    label="search icon"
+                    primaryColor="rgb(94, 108, 132)"
+                  />
+                }
                 value={wordSearch}
                 onChange={(e) => setWordSearch(e.target.value)}
                 onKeyPress={(e) => {
@@ -151,83 +124,33 @@ const Video = () => {
                 }}
                 className={classes.input}
                 onFocus={(e) => {
-                  handleSearch('keyword', e.target.value)
+                  handleSearch("keyword", e.target.value);
                 }}
               />
             </div>
           </div>
           <div></div>
         </div>
-        <div></div>
+        {commuticate.length > 0 && (<div className={classes.title}>Đại từ xưng hô - Số đếm</div>)}
         <div className={classes.container}>
-          {nameVideo[0] && (
-            <div onClick={handleVideo1}>
-              <img className={classes.group} alt="Dictionary" src={anh0} />
-              <span>{nameVideo[0]}</span>
-            </div>
-          )}
-          {nameVideo[1] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh1} />
-              <span>{nameVideo[1]}</span>
-            </div>
-          )}
-          {nameVideo[2] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh2} />
-              <span>{nameVideo[2]}</span>
-            </div>
-          )}
-          {nameVideo[3] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh3} />
-              <span>{nameVideo[3]}</span>
-            </div>
-          )}
-          {nameVideo[4] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh4} />
-              <span>{nameVideo[4]}</span>
-            </div>
-          )}
-          {nameVideo[5] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh6} />
-              <span>{nameVideo[5]}</span>
-            </div>
-          )}
-          {nameVideo[6] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh7} />
-              <span>{nameVideo[6]}</span>
-            </div>
-          )}
-          {nameVideo[7] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh8} />
-              <span>{nameVideo[7]}</span>
-            </div>
-          )}
-          {nameVideo[8] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh9} />
-              <span>{nameVideo[8]}</span>
-            </div>
-          )}
-          {nameVideo[9] && (
-            <div>
-              <img className={classes.group} alt="Dictionary" src={anh10} />
-              <span>{nameVideo[9]}</span>
-            </div>
-          )}
+          {commuticate.map((item) => {
+            return (
+              <>
+                <ListVideo key={item.id} item={item} />
+              </>
+            );
+          })}
         </div>
-        {isOpenVideo1 && (
-          <Example
-            isOpentest={isOpenVideo1}
-            closeModal={closeModal}
-            style={{ marginTop: "50px" }}
-          />
-        )}
+        {comcentense.length > 0 && (<div className={classes.title}>Mẫu câu giao tiếp</div>)}
+        <div className={classes.container}>
+          {comcentense.map((item) => {
+            return (
+              <>
+                <ListVideo key={item.id} item={item} />
+              </>
+            );
+          })}
+        </div>
       </div>
     </>
   );
