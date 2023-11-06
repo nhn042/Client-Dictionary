@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: "332px",
+    width: "420px",
     height: "100%",
   },
   logoContainer: {
@@ -84,7 +84,7 @@ const useStyles = makeStyles(() => ({
       color: "#000",
       border: "1px solid #C1C7D0",
       height: "40px",
-      fontSize: "14px",
+      fontSize: "16px",
       background: " #F5F5F5",
       boxSizing: "border-box",
       fontWeight: 500,
@@ -132,7 +132,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     width: "100%",
     fontWeight: "500",
-    fontSize: "14px",
+    fontSize: "16px",
     color: "#6D6E6F",
     marginTop: "10px",
     cursor: "pointer",
@@ -151,7 +151,7 @@ const useStyles = makeStyles(() => ({
   signUp: {
     marginLeft: "10px",
     fontWeight: "500",
-    fontSize: "14px",
+    fontSize: "16px",
     color: "#fad100",
     cursor: "pointer",
     "&:hover": {
@@ -342,7 +342,7 @@ const Login = () => {
           <span
             style={{
               fontWeight: "500",
-              fontSize: "14px",
+              fontSize: "16px",
               color: "#6D6E6F",
             }}
           >

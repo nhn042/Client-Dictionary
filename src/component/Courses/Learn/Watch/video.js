@@ -28,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     height: "250px",
     objectFit: "fill",
   },
+  fontTitle: {
+    margin: "15px 0px",
+    borderRadius: '30px',
+    background: '#ffe2004d',
+    backgroundSize: "26% 35px",
+    backgroundRepeat: "no-repeat",
+  },
   title: {
     margin: "20px 30px",
     fontSize: "22px",
@@ -131,7 +138,12 @@ const Video = () => {
           </div>
           <div></div>
         </div>
-        {commuticate.length > 0 && (<div className={classes.title}>Đại từ xưng hô - Số đếm</div>)}
+        {commuticate.length > 0 && (
+          <div className={classes.fontTitle}>
+            {" "}
+            <span className={classes.title}>Đại từ xưng hô - Số đếm</span>
+          </div>
+        )}
         <div className={classes.container}>
           {commuticate.map((item) => {
             return (
@@ -141,7 +153,12 @@ const Video = () => {
             );
           })}
         </div>
-        {comcentense.length > 0 && (<div className={classes.title}>Mẫu câu giao tiếp</div>)}
+        {comcentense.length > 0 && (
+          <div className={classes.fontTitle}>
+            {" "}
+            <span className={classes.title}>Mẫu câu giao tiếp</span>
+          </div>
+        )}
         <div className={classes.container}>
           {comcentense.map((item) => {
             return (
@@ -150,6 +167,37 @@ const Video = () => {
               </>
             );
           })}
+        </div>
+        <div className={classes.fontTitle}>
+          <span className={classes.title}>Ngữ âm</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Từ</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Câu</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Loại từ</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Mở rộng các phần của câu</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Mở rộng câu</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Rút gọn câu</span>
+        </div>
+        <div className={classes.fontTitle}>
+          {" "}
+          <span className={classes.title}>Dấu ngắt câu</span>
         </div>
       </div>
     </>

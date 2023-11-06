@@ -86,7 +86,7 @@ const useStyles = makeStyles(() => ({
       color: "#000",
       border: "1px solid #C1C7D0",
       height: "40px",
-      fontSize: "14px",
+      fontSize: "16px",
       background: " #F5F5F5",
       boxSizing: "border-box",
       fontWeight: 500,
@@ -134,7 +134,7 @@ const useStyles = makeStyles(() => ({
     display: "flex",
     width: "100%",
     fontWeight: "500",
-    fontSize: "14px",
+    fontSize: "16px",
     color: "#6D6E6F",
     marginTop: "10px",
     cursor: "pointer",
@@ -160,7 +160,7 @@ const useStyles = makeStyles(() => ({
   signUp: {
     marginLeft: "10px",
     fontWeight: "500",
-    fontSize: "14px",
+    fontSize: "16px",
     color: "#fad100",
     cursor: "pointer",
     "&:hover": {
@@ -476,44 +476,8 @@ console.log('date', date);
           {t("auth.signUp.signUp")}
         </button>
         <div onClick={handleBackLogin} className={classes.messSignUp}>
-          <span
-            style={{
-              fontWeight: "500",
-              fontSize: "14px",
-              color: "#6D6E6F",
-            }}
-          >
-            {t("auth.login.Register")}
-          </span>
           <span className={classes.signUp}>{t("auth.login.login")} </span>
         </div>
-        {/* {showSuccessfulChangePasswordNoti && (
-          <div className={classes.messageCheckPass}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <CheckboxIcon
-                size="large"
-                primaryColor="#FFFFFF"
-                secondaryColor="#008000"
-              />
-              <span style={{ marginLeft: '5px' }}>
-                {t('auth.forgotPassword.changePassSuccess')}
-              </span>
-            </div>
-            <div>
-              <button
-                type="button"
-                onClick={closeMessage}
-                style={{
-                  background: 'green',
-                  border: 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                <EditorCloseIcon primaryColor="#FFFFFF" />
-              </button>
-            </div>
-          </div>
-        )} */}
       </form>
     </>
   );
