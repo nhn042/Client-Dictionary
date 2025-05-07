@@ -41,13 +41,12 @@ const handleUpdateInfor = (name, email, number, date, gender, address) => {
   });
 };
 
-const handleGetAllWord = async () => {
-  return await axios.get("/wordNew");
+const handleGetAllWord = async (email) => {
+  return await axios.get(`/wordNew?query=${email}`);
 };
 
 const getDetailsUser = async (id, access_token) => {
   const res = await axios.get(`/get-details/${id}`);
-  console.log("res", res);
   return res;
 };
 
@@ -59,8 +58,8 @@ const handleFindWord = async (category, word) => {
   return await axios.get(`/find/${category}?query=${word}`);
 };
 
-const handleUpdateWord = async ({ viet, tay, dokho, dacdiem }) => {
-  return await axios.post("/update-word", { viet, tay, dokho, dacdiem });
+const handleUpdateWord = async ({ viet, tay, dokho, dacdiem, emailUser }) => {
+  return await axios.post("/update-word", { viet, tay, dokho, dacdiem, emailUser });
 };
 
 const handleChangePass = async (id, password) => {
@@ -75,6 +74,14 @@ const getAllWordDictionary = async () => {
   return await axios.get("/find/getAll");
 };
 
+const forgetPassword = async (email) => {
+  return await axios.get(`/forgot-password?query=${email}`);
+};
+
+const changePassword = async (email, code, password) => {
+  return await axios.patch("/change-password", { email, code, password });
+};
+
 export {
   getDetailsUser,
   handleGetAllUser,
@@ -87,4 +94,6 @@ export {
   handleFindWord,
   handleDeleteWord,
   handleChangePass,
+  changePassword,
+  forgetPassword,
 };

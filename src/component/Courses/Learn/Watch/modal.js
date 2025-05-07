@@ -29,7 +29,6 @@ const Example = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const openModal = useCallback(() => setIsOpen(true), []);
   //   const closeModal = useCallback(() => setIsOpen(false), []);
-console.log('link', link);
   return (
     <ModalTransition>
       {isOpentest && (

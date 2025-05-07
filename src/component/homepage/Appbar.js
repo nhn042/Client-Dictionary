@@ -123,6 +123,7 @@ const MenuAppBar = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
+    localStorage.clear();
     navigate("/login", { replace: true });
   };
   

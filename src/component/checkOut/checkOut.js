@@ -320,6 +320,7 @@ const Checkout = () => {
     e.preventDefault();
     try {
       if (password === confirmPassword) {
+        console.log(123);
         const res = await handleChangePass(user.id, password);
         console.log(res);
         setSucessMessage(t("checkOut.messCorrect"));
@@ -357,10 +358,9 @@ const Checkout = () => {
   };
 
   const handleUpdateInfo = async (e) => {
-    console.log(111111111);
     try {
       e.preventDefault();
-      if (name && email && number && date && gender.label && address) {
+      if (name && user.email && number && date && gender.label && address) {
         const res = await handleUpdateInfor(
           name,
           user.email,

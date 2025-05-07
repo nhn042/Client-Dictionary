@@ -89,7 +89,6 @@ const Video = () => {
   const [commuticate, setCommuticate] = useState(Communicate);
   const [comcentense, setComcentense] = useState(Comcentense);
   const [wordSearch, setWordSearch] = useState("");
-  console.log("Communicate", Communicate);
   const handleSearch = (key, value) => {
     let dataCommuticate = Communicate;
     let dataComcentense = Comcentense;

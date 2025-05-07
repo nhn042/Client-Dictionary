@@ -10,7 +10,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { getDetailsUser, handleUserLoginApi } from "../../services/userService";
-// import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import React, { useContext, useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,8 +17,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../images/logoLogin.png";
 import { updateUser } from "../../redux/slides/UserSlide";
-// import screenDefaultApis from '../../services/screenDefaultApis'
-// import { AuthContext } from './AuthProvider'
+
 
 const useStyles = makeStyles(() => ({
   loginForm: {
@@ -236,19 +234,16 @@ const Login = () => {
     try {
       const user = await handleUserLoginApi(email, password);
       setUserId(user.token);
-      console.log("user", user);
       navigate("/home", { replace: true });
       localStorage.setItem("access_token", JSON.stringify(user.token));
-      // localStorage.setItem('refresh_token', JSON.stringify(data?.refresh_token))
+      localStorage.setItem('user', JSON.stringify(user?.success))
       if (user.token) {
         const decoded = jwt_decode(user.token);
-        console.log("decoded", decoded);
         if (decoded?.id) {
           handleGetDetailsUser(decoded?.id, user.token);
         }
       }
     } catch (err) {
-      console.log(err.code);
       setIsLoading(false);
       if (err.code === "NotAuthorizedException" || !regex.test(email)) {
         setErrorMessage(t("auth.login.incorrectAccountError"));
@@ -261,9 +256,7 @@ const Login = () => {
   const handleGetDetailsUser = async (id, token) => {
     const storage = localStorage.getItem("refresh_token");
     const refreshToken = JSON.parse(storage);
-    console.log(123456);
     const res = await getDetailsUser(id, token);
-    console.log("res", res?.data);
     dispatch(updateUser({ ...res?.data, access_token: token, refreshToken }));
   };
 

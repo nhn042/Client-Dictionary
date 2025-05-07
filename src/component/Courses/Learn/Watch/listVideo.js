@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListVideo = ({ item: { id, cover, name, link } }) => {
+const ListVideo = ({ item: { id, avatar, name, link } }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const handleVideo1 = (check) => {
@@ -47,7 +47,7 @@ const ListVideo = ({ item: { id, cover, name, link } }) => {
     <>
       <div className={classes.container}>
         <div onClick={handleVideo1}>
-          <img className={classes.group} alt="Dictionary" src={cover} />
+          <img className={classes.group} alt="Dictionary" src={avatar} />
           <span className={classes.title}>{name}</span>
         </div>
         <div>

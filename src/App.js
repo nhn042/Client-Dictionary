@@ -21,6 +21,7 @@ import ContentDictionary from "./component/Courses/Dictionary";
 import Introduce from "./component/Introduce";
 import Character from "./component/Introduce/introduce";
 import SearchHome from "./component/Home/SearchHome";
+import RequireAuth from "./component/common/RequireAuth.js";
 function App() {
   return (
     <Router>
@@ -42,10 +43,10 @@ function App() {
           }
         />
         <Route
-          path="/test"
+          path="/signUp"
           element={
             <WrapperComponent>
-              <DropdownItemDescriptionExample />
+              <Register />
             </WrapperComponent>
           }
         />
@@ -57,39 +58,6 @@ function App() {
             </WrapperComponent>
           }
         />
-        <Route path="/home/search" element={<SearchHome />} />
-        <Route
-          path="/signUp"
-          element={
-            <WrapperComponent>
-              <Register />
-            </WrapperComponent>
-          }
-        />
-        <Route
-          path="/checkOut"
-          element={
-            <HomeMain>
-              <Checkout />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <HomeMain>
-              <HomeScene />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/introduce"
-          element={
-            <HomeMain>
-              <Introduce />
-            </HomeMain>
-          }
-        />
         <Route
           path="/search"
           element={
@@ -98,39 +66,78 @@ function App() {
             </HomeMain>
           }
         />
-        <Route
-          path="/courses"
-          element={
-            <HomeMain>
-              <HomeLearn />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/buyCourses"
-          element={
-            <HomeMain>
-              <buyCourses />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/homeZoom"
-          element={
-            <HomeMain>
-              <HomeZoom />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/room/:roomID"
-          element={
-            // <HomeMain>
-            <Room />
-            // </HomeMain>
-          }
-        />
-        {/* <Route
+        <Route element={<RequireAuth />}>
+          <Route
+            path="/test"
+            element={
+              <WrapperComponent>
+                <DropdownItemDescriptionExample />
+              </WrapperComponent>
+            }
+          />
+
+          <Route path="/home/search" element={<SearchHome />} />
+
+          <Route
+            path="/checkOut"
+            element={
+              <HomeMain>
+                <Checkout />
+              </HomeMain>
+            }
+          />
+
+          <Route
+            path="/home"
+            element={
+              <HomeMain>
+                <HomeScene />
+              </HomeMain>
+            }
+          />
+
+          <Route
+            path="/introduce"
+            element={
+              <HomeMain>
+                <Introduce />
+              </HomeMain>
+            }
+          />
+
+          <Route
+            path="/courses"
+            element={
+              <HomeMain>
+                <HomeLearn />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/buyCourses"
+            element={
+              <HomeMain>
+                <buyCourses />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/homeZoom"
+            element={
+              <HomeMain>
+                <HomeZoom />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/room/:roomID"
+            element={
+              // <HomeMain>
+              <Room />
+              // </HomeMain>
+            }
+          />
+          {/* <Route
           path="/game"
           element={
             <HomeMain>
@@ -138,46 +145,47 @@ function App() {
             </HomeMain>
           }
         /> */}
-        <Route
-          path="/courses/note"
-          element={
-            <HomeMain>
-              <Courses />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/courses/dictionary"
-          element={
-            <HomeMain>
-              <ContentDictionary />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/courses/content"
-          element={
-            <HomeMain>
-              <ContentWord />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/courses/video"
-          element={
-            <HomeMain>
-              <CoursesVideo />
-            </HomeMain>
-          }
-        />
-        <Route
-          path="/introduce/culture"
-          element={
-            <HomeMain>
-              <Character />
-            </HomeMain>
-          }
-        />
+          <Route
+            path="/courses/note"
+            element={
+              <HomeMain>
+                <Courses />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/courses/dictionary"
+            element={
+              <HomeMain>
+                <ContentDictionary />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/courses/content"
+            element={
+              <HomeMain>
+                <ContentWord />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/courses/video"
+            element={
+              <HomeMain>
+                <CoursesVideo />
+              </HomeMain>
+            }
+          />
+          <Route
+            path="/introduce/culture"
+            element={
+              <HomeMain>
+                <Character />
+              </HomeMain>
+            }
+          />
+        </Route>
       </Routes>
     </Router>
   );

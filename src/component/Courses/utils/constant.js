@@ -9,13 +9,13 @@ export const emptyTable = () => (
       fontSize: "20px",
     }}
   >
-    {i18next.t("auth.common.emptyDataTable")}
+    {i18next.t("common.emptyDataTable")}
   </div>
 );
 
 export const DEFAULT_ROW_PER_PAGE = 10;
 
 export const DEFAULT_ROW_PER_PAGE_OPTIONS = () => ({
-  label: `${DEFAULT_ROW_PER_PAGE} / ${i18next.t("auth.common.page")}`,
+  label: `${DEFAULT_ROW_PER_PAGE} / ${i18next.t("common.page")}`,
   value: DEFAULT_ROW_PER_PAGE,
 });

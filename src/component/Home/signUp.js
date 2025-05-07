@@ -202,6 +202,13 @@ const useStyles = makeStyles(() => ({
     marginTop: "50px",
     display: "flex",
   },
+  messageContainerSuccess: {
+    color: "#1fd91f",
+    fontSize: "16px",
+    width: "100%",
+    marginTop: "50px",
+    display: "flex",
+  },
   message: {
     marginLeft: "5px",
   },
@@ -278,10 +285,6 @@ const Register = () => {
       setIsLoading(false);
       setErrorMessage(t("auth.signUp.messerror"));
     }
-  };
-console.log('date', date);
-  const closeMessage = () => {
-    // setShowSuccessfulChangePasswordNoti(false)
   };
 
   useEffect(() => {
@@ -461,7 +464,7 @@ console.log('date', date);
           </div>
         )}
         {successMessage && (
-          <div className={classes.messageContainer}>
+          <div className={classes.messageContainerSuccess}>
             {/* <WarningIcon /> */}
             <span className={classes.message}>{successMessage}</span>
           </div>

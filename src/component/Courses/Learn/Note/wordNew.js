@@ -18,6 +18,7 @@ import DynamicTable from "@atlaskit/dynamic-table";
 import EditorSearchIcon from "@atlaskit/icon/glyph/editor/search";
 import { Field } from "@atlaskit/form";
 import Select from "@atlaskit/select";
+import { useSelector } from "react-redux";
 import { TableResponsive, ACCESS_LEVEL_OPTIONS } from "../../constant";
 import {
   handleDeleteWord,
@@ -165,13 +166,14 @@ const WordNew = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(
     DEFAULT_ROW_PER_PAGE_OPTIONS()
   );
+  const user = useSelector((state) => state?.user);
   const { t } = useTranslation();
   const handleExpand = () => {
     setExpanded(!expanded);
   };
 
   const handleGetWord = async () => {
-    let wordData = await handleGetAllWord();
+    let wordData = await handleGetAllWord(user.email);
     setDataWord(wordData.data);
     setDataMain(wordData.data);
   };
@@ -191,6 +193,7 @@ const WordNew = () => {
       tay: wordTay,
       dokho: wordType.label,
       dacdiem: description,
+      emailUser: user.email,
     });
     if (res.status === 200) {
       await handleGetWord();

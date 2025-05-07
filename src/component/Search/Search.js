@@ -42,12 +42,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   errorMessageContainer: {
-    color: 'red',
-    fontSize: '16px',
-    width: '100%',
-    marginBottom: '10px',
-    display: 'flex',
-    justifyContent: 'center',
+    color: "red",
+    fontSize: "16px",
+    width: "100%",
+    marginBottom: "10px",
+    display: "flex",
+    justifyContent: "center",
   },
 }));
 
@@ -76,13 +76,16 @@ const Search = () => {
       setRightSelect("Tay");
       setCategory("viet");
     }
+    reset()
   };
   const handleSubmit = async (e) => {
     try {
-      console.log('category', category, word);
       const res = await handleFindWord(category, word);
       console.log("res", res);
       setMeanings(res.data);
+      if (res.data.length === 0) {
+        setErrorMessage(t("search.messerror"));
+      }
       setResponse(true);
     } catch (error) {
       setMeanings([]);
