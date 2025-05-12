@@ -9,16 +9,12 @@ import Select from "@atlaskit/select";
 import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-import Button from "@material-ui/core/Button";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import logo from "../../images/logoLogin.png";
 import {
   handleChangePass,
   handleUpdateInfor,
 } from "../../services/userService";
-import { useSelector } from "react-redux";
 import moment from "moment";
 
 const useStyles = makeStyles(() => ({
@@ -268,7 +264,6 @@ const Checkout = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [date, setDate] = useState("");
   const [address, setAddress] = useState("");
@@ -282,13 +277,11 @@ const Checkout = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [sucessMessage, setSucessMessage] = useState(null);
 
-  const regex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-  const navigate = useNavigate();
-
   const [value, setValue] = React.useState(2);
-  const user = useSelector((state) => state?.user);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -320,48 +313,35 @@ const Checkout = () => {
     e.preventDefault();
     try {
       if (password === confirmPassword) {
-        console.log(123);
-        const res = await handleChangePass(user.id, password);
-        console.log(res);
+        await handleChangePass(user.id, password);
+
         setSucessMessage(t("checkOut.messCorrect"));
       } else {
         setErrorMessage(t("checkOut.messFaildChange"));
       }
     } catch (err) {
-      console.log(err);
       setIsLoading(false);
       setErrorMessage(t("checkOut.messCorrect"));
-    }
-  };
-
-  const getInfoUser = async (e) => {
-    try {
-      if (name && email && number && date && gender.label && address) {
-        e.preventDefault();
-        await handleUpdateInfor(
-          name,
-          email,
-          number,
-          date,
-          gender.label,
-          address
-        );
-        setSucessMessage(t("checkOut.messCorrect"));
-      } else {
-        setErrorMessage(t("checkOut.messError"));
-      }
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
-      setErrorMessage(t("checkOut.messError"));
     }
   };
 
   const handleUpdateInfo = async (e) => {
     try {
       e.preventDefault();
-      if (name && user.email && number && date && gender.label && address) {
-        const res = await handleUpdateInfor(
+      const updatedUser = {
+        ...user,
+        fullname: name ? name : user.fullname,
+        email: user.email,
+        phoneNumber: number ? number : user.phoneNumber,
+        dateOfBirth: date ? date : user.dateOfBirth,
+        gender: gender.label ? gender.label : user.gender,
+        address: address ? address : user.address,
+      };
+
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setUser(updatedUser);
+      if (name || number || date || gender.label || address) {
+        await handleUpdateInfor(
           name,
           user.email,
           number,
@@ -375,11 +355,17 @@ const Checkout = () => {
         setErrorMessage(t("checkOut.messError"));
       }
     } catch (err) {
-      console.log(err);
       setIsLoading(false);
       setErrorMessage(t("checkOut.messError"));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setUser(user);
+    }
+  }, [user]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setErrorMessage(false);
@@ -391,7 +377,6 @@ const Checkout = () => {
   return (
     <>
       <div className={classes.container}>
-        {/* <div className={classes.profile}> */}
         <div className={classes.profiledevide}>
           <div>
             <span className={classes.textInfor}>{t("checkOut.ten")}</span>
@@ -521,19 +506,16 @@ const Checkout = () => {
                   style={{ cursor: isLoading ? "not-allowed" : "pointer" }}
                   onClick={handleUpdateInfo}
                 >
-                  {/* {isLoading ? <Spinner /> : t(buttonTitle)} */}
                   {t("auth.Update.Update")}
                 </button>
               </div>
               {errorMessage && (
                 <div className={classes.errorMessageContainer}>
-                  {/* <WarningIcon /> */}
                   <span className={classes.errorMessage}>{errorMessage}</span>
                 </div>
               )}
               {sucessMessage && (
                 <div className={classes.sucessMessageContainer}>
-                  {/* <WarningIcon /> */}
                   <span className={classes.errorMessage}>{sucessMessage}</span>
                 </div>
               )}
@@ -546,7 +528,7 @@ const Checkout = () => {
               <div className={classes.formInput}>
                 <div className={classes.wordEmailField}>
                   <span className={classes.wordEmailTitle}>
-                    {t("auth.Update.password")}
+                    {t("auth.Update.newPassword")}
                   </span>
                   <Input
                     onFocus={() => setErrorMessage(null)}
@@ -576,7 +558,7 @@ const Checkout = () => {
 
                 <div className={classes.passwordOrMailField}>
                   <span className={classes.wordEmailTitle}>
-                    {t("auth.Update.newPassword")}
+                    {t("auth.Update.confirmPassword")}
                   </span>
                   <Input
                     onFocus={() => setErrorMessage(null)}

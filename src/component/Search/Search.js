@@ -60,11 +60,9 @@ const Search = () => {
   const [rightSelect, setRightSelect] = useState("Tay");
   const [meanings, setMeanings] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [response, setResponse] = useState(false);
   const reset = () => {
     setMeanings([]);
     setWord("");
-    setResponse(false);
   };
   const changeSearch = () => {
     if (leftSelect === "Viet") {
@@ -81,16 +79,13 @@ const Search = () => {
   const handleSubmit = async (e) => {
     try {
       const res = await handleFindWord(category, word);
-      console.log("res", res);
       setMeanings(res.data);
       if (res.data.length === 0) {
         setErrorMessage(t("search.messerror"));
       }
-      setResponse(true);
     } catch (error) {
       setMeanings([]);
       setErrorMessage(t("search.messerror"));
-      console.log(error);
     }
   };
   useEffect(() => {

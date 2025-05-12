@@ -89,6 +89,7 @@ const WrapperComponent = ({ children }) => {
   };
   const handleSearch = (event) => {
     event.preventDefault();
+    
     navigate("/home/search", { replace: true });
   };
   return (

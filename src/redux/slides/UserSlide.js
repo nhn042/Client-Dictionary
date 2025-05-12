@@ -18,8 +18,6 @@ export const userSlide = createSlice({
   initialState,
   reducers: {
     updateUser: (state, action) => {
-      console.log("action", action);
-      console.log("state", state);
       const {
         fullname = "",
         email = "",
@@ -44,7 +42,7 @@ export const userSlide = createSlice({
       state.refreshToken = refreshToken ? refreshToken : state.refreshToken;
     },
     resetUser: (state) => {
-      state.name = "";
+      state.fullname = "";
       state.email = "";
       state.address = "";
       state.phone = "";

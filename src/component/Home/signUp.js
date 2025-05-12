@@ -1,8 +1,4 @@
 /* eslint-disable no-param-reassign */
-// import CheckboxIcon from '@atlaskit/icon/glyph/checkbox'
-// import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close'
-// import WarningIcon from '@atlaskit/icon/glyph/warning'
-// import Spinner from '@atlaskit/spinner'
 import IconButton from "@material-ui/core/IconButton";
 import { DatePicker } from "@atlaskit/datetime-picker";
 import Input from "@material-ui/core/Input";
@@ -11,14 +7,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import Select from "@atlaskit/select";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-// import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@root/utils'
 import { handleUserRegisterApi } from "../../services/userService";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import logo from "../../images/logo.png";
-// import screenDefaultApis from '../../services/screenDefaultApis'
-// import { AuthContext } from './AuthProvider'
 
 const useStyles = makeStyles(() => ({
   loginForm: {
@@ -217,12 +210,6 @@ const useStyles = makeStyles(() => ({
 const Register = () => {
   const classes = useStyles();
   const { t } = useTranslation();
-  //   const {
-  //     authenticate,
-  //     completeNewPasswordChallenge,
-  //     showSuccessfulChangePasswordNoti,
-  //     setShowSuccessfulChangePasswordNoti,
-  //   } = useContext(AuthContext)
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -236,13 +223,6 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
-  const [newPassword, setNewPassword] = useState("");
-  const [userAttr, setUserAttr] = useState(null);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [buttonTitle, setButtonTitle] = useState("auth.login.loginTitle");
-
-  const regex =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
   const navigate = useNavigate();
 
@@ -256,11 +236,6 @@ const Register = () => {
     setIsShowConfirmPassword(!isShowConfirmPassword);
   };
 
-  const handleForgotPassword = (event) => {
-    event.preventDefault();
-    navigate("/forgotPassword", { replace: true });
-  };
-
   const handleBackLogin = (event) => {
     event.preventDefault();
     navigate("/login", { replace: true });
@@ -269,8 +244,7 @@ const Register = () => {
   const handleSignUp = async (e) => {
     try {
       e.preventDefault();
-      console.log(name, email, password, date, gender, address);
-      let userData = await handleUserRegisterApi(
+      await handleUserRegisterApi(
         name,
         email,
         password,
@@ -281,7 +255,6 @@ const Register = () => {
       );
       setSuccessMessage(t("auth.signUp.messcorect"));
     } catch (err) {
-      console.log(err);
       setIsLoading(false);
       setErrorMessage(t("auth.signUp.messerror"));
     }

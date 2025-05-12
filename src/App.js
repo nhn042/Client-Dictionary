@@ -13,7 +13,6 @@ import HomeMain from "./component/Home/homeMain";
 import DropdownItemDescriptionExample from "./component/Courses/Learn/Watch/video";
 import HomeZoom from "./component/joinZoom/homeZoom";
 import Room from "./component/joinZoom/Room";
-import Game from "./component/Game/game";
 import HomeLearn from "./component/Courses";
 import ContentWord from "./component/Courses/content";
 import CoursesVideo from "./component/Courses/video";
@@ -58,14 +57,8 @@ function App() {
             </WrapperComponent>
           }
         />
-        <Route
-          path="/search"
-          element={
-            <HomeMain>
-              <Search />
-            </HomeMain>
-          }
-        />
+
+        <Route path="/home/search" element={<SearchHome />} />
         <Route element={<RequireAuth />}>
           <Route
             path="/test"
@@ -75,9 +68,14 @@ function App() {
               </WrapperComponent>
             }
           />
-
-          <Route path="/home/search" element={<SearchHome />} />
-
+          <Route
+            path="/search"
+            element={
+              <HomeMain>
+                <Search />
+              </HomeMain>
+            }
+          />
           <Route
             path="/checkOut"
             element={

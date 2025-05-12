@@ -1,8 +1,5 @@
 /* eslint-disable no-param-reassign */
-// import CheckboxIcon from '@atlaskit/icon/glyph/checkbox'
-// import EditorCloseIcon from '@atlaskit/icon/glyph/editor/close'
 import WarningIcon from "@atlaskit/icon/glyph/warning";
-// import Spinner from '@atlaskit/spinner'
 import IconButton from "@material-ui/core/IconButton";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -10,14 +7,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { getDetailsUser, handleUserLoginApi } from "../../services/userService";
-import React, { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import jwt_decode from "jwt-decode";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../images/logoLogin.png";
 import { updateUser } from "../../redux/slides/UserSlide";
-
 
 const useStyles = makeStyles(() => ({
   loginForm: {
@@ -37,8 +33,8 @@ const useStyles = makeStyles(() => ({
   },
   search: {
     position: "absolute",
-    top: '0px',
-    right: '15px',
+    top: "0px",
+    right: "15px",
   },
   loginTitle: {
     fontWeight: "600",
@@ -184,13 +180,6 @@ const useStyles = makeStyles(() => ({
     },
     color: "#F0FFF0",
   },
-  errorMessageContainer: {
-    color: "#D92929",
-    fontSize: "16px",
-    width: "100%",
-    marginTop: "10px",
-    display: "flex",
-  },
   errorMessage: {
     marginLeft: "5px",
   },
@@ -205,8 +194,6 @@ const Login = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [userId, setUserId] = useState("");
-  const location = useLocation();
   const dispatch = useDispatch();
 
   const regex =
@@ -233,10 +220,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await handleUserLoginApi(email, password);
-      setUserId(user.token);
       navigate("/home", { replace: true });
       localStorage.setItem("access_token", JSON.stringify(user.token));
-      localStorage.setItem('user', JSON.stringify(user?.success))
+      localStorage.setItem("user", JSON.stringify(user?.success));
       if (user.token) {
         const decoded = jwt_decode(user.token);
         if (decoded?.id) {
@@ -257,11 +243,9 @@ const Login = () => {
     const storage = localStorage.getItem("refresh_token");
     const refreshToken = JSON.parse(storage);
     const res = await getDetailsUser(id, token);
-    dispatch(updateUser({ ...res?.data, access_token: token, refreshToken }));
-  };
-
-  const onSubmit = (event) => {
-    handleLogin();
+    const user = { ...res?.data, access_token: token, refreshToken };
+    localStorage.setItem("user", JSON.stringify(user));
+    dispatch(updateUser(user));
   };
 
   return (

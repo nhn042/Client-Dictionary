@@ -1,5 +1,4 @@
 import axios from "../axios";
-
 import axioss from "axios";
 
 export const axiosJWT = axioss.create();
@@ -29,8 +28,7 @@ const handleUserRegisterApi = (
 };
 
 /* thay đổi thông tin */
-const handleUpdateInfor = (name, email, number, date, gender, address) => {
-  console.log(name, email, number, date, gender, address);
+const handleUpdateInfor = (name, email, number, date, gender, address) => {  
   return axios.patch("/update-userInfo", {
     fullname: name,
     email,

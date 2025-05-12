@@ -14,7 +14,6 @@ import Menu from "@material-ui/core/Menu";
 import { useTranslation } from "react-i18next";
 const useStyles = makeStyles((theme) => ({
   root: {
-    // height: "8%",
     flexGrow: 1,
     position: "fixed",
     top: "0px",
@@ -80,16 +79,6 @@ const useStyles = makeStyles((theme) => ({
     borderLeft: '2px solid #D4DEE2',
     borderBottom: '30px solid #D4DEE2',
   },
-  // in: {
-  //   position: "absolute",
-  //   top: "-13px",
-  //   right: "-16px",
-  //   width: 0,
-  //   height: 0,
-  //   borderTop: "13px solid transparent",
-  //   borderRight: "13px solid white",
-  //   borderBottom: "13px solid transparent",
-  // },
   icon: {
     primaryColor: "#303952",
   },
@@ -116,12 +105,7 @@ const MenuAppBar = () => {
     navigate("/checkOut", { replace: true });
   };
 
-  const handleByCourses = (event) => {
-    event.preventDefault();
-    navigate("/buyCourses", { replace: true });
-  };
-
-  const handleLogin = (event) => {
+  const handleLogout = (event) => {
     event.preventDefault();
     localStorage.clear();
     navigate("/login", { replace: true });
@@ -129,6 +113,7 @@ const MenuAppBar = () => {
   
   const handleSearch = (event) => {
     event.preventDefault();
+    
     navigate("/search", { replace: true });
   };
 
@@ -142,19 +127,9 @@ const MenuAppBar = () => {
     navigate("/homeZoom", { replace: true });
   };
 
-  const handleGame = (event) => {
-    event.preventDefault();
-    navigate("/game", { replace: true });
-  };
-
   const handleHome = (event) => {
     event.preventDefault();
     navigate("/home", { replace: true });
-  };
-
-  const handleIntro = (event) => {
-    event.preventDefault();
-    navigate("/introduce", { replace: true });
   };
 
   const handleMenu = (event) => {
@@ -243,7 +218,7 @@ const MenuAppBar = () => {
                 <PersonIcon size="medium" />
                 {t("auth.login.courses")}
               </MenuItem> */}
-              <MenuItem onClick={handleLogin} className={classes.logOut}>
+              <MenuItem onClick={handleLogout} className={classes.logOut}>
                 <SignOutIcon size="small" className={classes.icon} />
                 <span style={{ fontSize: 16 }}> {t("auth.login.logout")} </span>
               </MenuItem>

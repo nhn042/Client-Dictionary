@@ -24,12 +24,13 @@
       "passwordFormatError": "Mật khẩu phải có ít nhất 8 ký tự!"
     },
     "forgotPassword": {
+      "userNotFound": "Thông tin người dùng không tồn tại!",
       "forgotPasswordTitle": "Quên mật khẩu",
       "message1": "Nhập Email công việc của bạn bên dưới và chúng tôi sẽ gửi tin nhắn để đặt lại mật khẩu của bạn.",
       "message2": "",
       "emailTitle": "Email",
       "backLogIn": "Quay về trang đăng nhập",
-      "checkEmail": "tài khoản email không tồn tại",
+      "checkEmail": "Tài khoản email không tồn tại!",
       "continue": "Tiếp tục",
       "changePassword": "Đổi mật khẩu",
       "notificationSentMail1": "Chúng tôi đã gửi mã đặt lại mật khẩu tới email của bạn. Nhập nó bên dưới để đặt lại mật khẩu của bạn.",
@@ -73,6 +74,7 @@
       "changePass": "Đổi mật khẩu",
       "password": "Mật khẩu",
       "newPassword": "Mật khẩu mới",
+      "confirmPassword": "Xác nhận Mật khẩu mới",
       "workPassPlaceholder": "nhập mật khẩu",
       "workNewPasssPlaceholder": "nhập mật khẩu mới",
       "workAddressPlaceholder": "nhập địa chỉ",

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 // import WarningIcon from '@atlaskit/icon/glyph/warning'
-// import Spinner from '@atlaskit/spinner'
+import Spinner from '@atlaskit/spinner'
 import { IconButton, InputAdornment } from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import { makeStyles } from "@material-ui/core/styles";
@@ -209,15 +209,12 @@ const ForgotPassword = () => {
     setIsLoading(true);
     try {
       const res = await changePassword(email, verifiedCode, newPassword);
-      console.log("res", res);
       if (res.success === true) {
         event.preventDefault();
         navigate("/login", { replace: true });
       }
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
-
       setErrorForgotMessage(t("auth.forgotPassword.limitTimeError"));
       setIsLoading(false);
     }
@@ -226,18 +223,17 @@ const ForgotPassword = () => {
   const handleResetPassword = async (event) => {
     event.preventDefault();
     setIsLoading(true);
+    if (!regex.test(email)) {
+      setcheckMail(true);
+      setIsLoading(false);
+      return;
+    }
     try {
-      const res = await forgetPassword(email);
-      if (regex.test(email) === true) {
-        setScreenMode(ScreenMode.CHANGE_PASSWORD);
-      } else {
-        setcheckMail(true);
-      }
+      await forgetPassword(email);
+      setScreenMode(ScreenMode.CHANGE_PASSWORD);
       setIsLoading(false);
     } catch (err) {
-      console.log(err);
-
-      setErrorForgotMessage(t("auth.forgotPassword.limitTimeError"));
+      setErrorForgotMessage(t("auth.forgotPassword.userNotFound"));
       setIsLoading(false);
     }
   };
@@ -316,8 +312,7 @@ const ForgotPassword = () => {
               marginTop: "24px",
             }}
           >
-            {t("auth.forgotPassword.continue")}
-            {/* {isLoading ? <Spinner /> : t('auth.forgotPassword.continue')} */}
+            {isLoading ? <Spinner /> : t('auth.forgotPassword.continue')}
           </button>
           <span onClick={backToLogIn} className={classes.backToLogIn}>
             {t("auth.forgotPassword.backLogIn")}

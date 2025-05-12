@@ -1,12 +1,11 @@
 /* eslint-disable no-undef */
 import "./Search.css";
-// import "../Definitions/Definitions.js";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 import Changes24Icon from "@atlaskit/icon-object/glyph/changes/24";
 import { handleFindWord } from "../../services/userService";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "@atlaskit/button/standard-button";
 
 const useStyles = makeStyles((theme) => ({
@@ -68,14 +67,12 @@ const SearchHome = () => {
   const [rightSelect, setRightSelect] = useState("Tay");
   const [meanings, setMeanings] = useState([]);
   const [errorMessage, setErrorMessage] = useState(null);
-  const [response, setResponse] = useState(false);
 
   const navigate = useNavigate();
 
   const reset = () => {
     setMeanings([]);
     setWord("");
-    setResponse(false);
   };
   const changeSearch = () => {
     if (leftSelect === "Viet") {
@@ -91,13 +88,11 @@ const SearchHome = () => {
   const handleSubmit = async (e) => {
     try {
       const res = await handleFindWord(category, word);
-      console.log("res", res);
       setMeanings(res.data);
       setResponse(true);
     } catch (error) {
       setMeanings([]);
       setErrorMessage(t("search.messerror"));
-      console.log(error);
     }
   };
   useEffect(() => {
