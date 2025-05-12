@@ -11,8 +11,6 @@ import Courses from "./component/Courses/courses";
 import HomeScene from "./component/homeMain/home";
 import HomeMain from "./component/Home/homeMain";
 import DropdownItemDescriptionExample from "./component/Courses/Learn/Watch/video";
-import HomeZoom from "./component/joinZoom/homeZoom";
-import Room from "./component/joinZoom/Room";
 import HomeLearn from "./component/Courses";
 import ContentWord from "./component/Courses/content";
 import CoursesVideo from "./component/Courses/video";
@@ -119,30 +117,6 @@ function App() {
               </HomeMain>
             }
           />
-          <Route
-            path="/homeZoom"
-            element={
-              <HomeMain>
-                <HomeZoom />
-              </HomeMain>
-            }
-          />
-          <Route
-            path="/room/:roomID"
-            element={
-              // <HomeMain>
-              <Room />
-              // </HomeMain>
-            }
-          />
-          {/* <Route
-          path="/game"
-          element={
-            <HomeMain>
-              <Game />
-            </HomeMain>
-          }
-        /> */}
           <Route
             path="/courses/note"
             element={

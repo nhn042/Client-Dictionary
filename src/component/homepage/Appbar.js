@@ -74,10 +74,10 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     width: 0,
     height: 0,
-    borderTop: '5px solid #D4DEE2',
-    borderRight: '2px solid #D4DEE2',
-    borderLeft: '2px solid #D4DEE2',
-    borderBottom: '30px solid #D4DEE2',
+    borderTop: "5px solid #D4DEE2",
+    borderRight: "2px solid #D4DEE2",
+    borderLeft: "2px solid #D4DEE2",
+    borderBottom: "30px solid #D4DEE2",
   },
   icon: {
     primaryColor: "#303952",
@@ -110,21 +110,16 @@ const MenuAppBar = () => {
     localStorage.clear();
     navigate("/login", { replace: true });
   };
-  
+
   const handleSearch = (event) => {
     event.preventDefault();
-    
+
     navigate("/search", { replace: true });
   };
 
   const handleCourses = (event) => {
     event.preventDefault();
     navigate("/courses", { replace: true });
-  };
-
-  const handleZoom = (event) => {
-    event.preventDefault();
-    navigate("/homeZoom", { replace: true });
   };
 
   const handleHome = (event) => {
@@ -141,7 +136,6 @@ const MenuAppBar = () => {
   };
 
   return (
-    // <div className={classes.root}>
     <AppBar className={classes.root}>
       <Toolbar>
         <div onClick={handleHome} className={classes.menuButton}>
@@ -154,12 +148,6 @@ const MenuAppBar = () => {
           <span className={classes.out}>
             <span className={classes.in} />
           </span>
-          {/* <Typography variant="h6" className={classes.title}>
-            <span onClick={handleIntro}>{t("auth.appBar.Introduce")}</span>
-          </Typography>
-          <span className={classes.out}>
-            <span className={classes.in} />
-          </span> */}
           <Typography variant="h6" className={classes.title}>
             <span onClick={handleSearch}>{t("auth.appBar.Search")}</span>
           </Typography>
@@ -169,18 +157,6 @@ const MenuAppBar = () => {
           <Typography variant="h6" className={classes.title}>
             <span onClick={handleCourses}>{t("auth.appBar.Courses")}</span>
           </Typography>
-          <span className={classes.out}>
-            <span className={classes.in} />
-          </span>
-          <Typography variant="h6" className={classes.title}>
-            <span onClick={handleZoom}>{t("auth.appBar.Zoom")}</span>
-          </Typography>
-          {/* <span className={classes.out}>
-            <span className={classes.in} />
-          </span> */}
-          {/* <Typography variant="h6" className={classes.title}>
-            <span onClick={handleGame}>{t("auth.appBar.Game")}</span>
-          </Typography> */}
         </div>
         {auth && (
           <div className={classes.menuIcon}>
@@ -214,10 +190,6 @@ const MenuAppBar = () => {
                 <PersonIcon size="medium" />
                 {t("auth.login.profile")}
               </MenuItem>
-              {/* <MenuItem onClick={handleByCourses} className={classes.user}>
-                <PersonIcon size="medium" />
-                {t("auth.login.courses")}
-              </MenuItem> */}
               <MenuItem onClick={handleLogout} className={classes.logOut}>
                 <SignOutIcon size="small" className={classes.icon} />
                 <span style={{ fontSize: 16 }}> {t("auth.login.logout")} </span>
@@ -227,7 +199,6 @@ const MenuAppBar = () => {
         )}
       </Toolbar>
     </AppBar>
-    // </div>
   );
 };
 
